@@ -27,6 +27,7 @@ int bfs(coord& s, coord& e)
 {
 	int src[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
 	queue<coord> q;
+	int widx = 0, sidx = 1;
 
 	for (int i = 0; i < r; i++)
 		for (int j = 0; j < c; j++)
@@ -34,30 +35,38 @@ int bfs(coord& s, coord& e)
 			{
 				q.push({ i,j });
 				wvisit[i][j] = true;
+				widx++;
 			}
 	q.push(s);
 	avisit[s.y][s.x] = true;
 
+
 	for (int t = 1; !q.empty(); t++)
 	{
+		int wtemp = 0, stemp = 0;
 		coord top;
-		while (iswater((top = q.front())))
+		for (int k = 0; k < widx; k++)
 		{
+			top = q.front();
 			q.pop();
 			for (int i = 0; i < 4; i++)
 			{
 				int sy = top.y + src[i][0], sx = top.x + src[i][1];
-				if (isin(sy, sx) && map[sy][sx] != 'D'&&!wvisit[sy][sx])
+				if (isin(sy, sx) && map[sy][sx] != 'D' && !wvisit[sy][sx])
 				{
 					map[sy][sx] = '*';
-					q.push({ sy,sx }); //고슴도치가 왔는데 물이 덮친다면, 큐에 있던 좌표는?
+					q.push({ sy,sx });
 					wvisit[sy][sx] = true;
+					wtemp++;
 				}
 			}
 		}
-		while (!iswater((top = q.front())))
+		for (int k = 0; k < sidx; k++)
 		{
+			top = q.front();
 			q.pop();
+			if (map[top.y][top.x] == '*')
+				continue;
 			for (int i = 0; i < 4; i++)
 			{
 				int sy = top.y + src[i][0], sx = top.x + src[i][1];
@@ -65,13 +74,16 @@ int bfs(coord& s, coord& e)
 				{
 					if (map[sy][sx] == '*')
 						break;
-					if (e == coord{ sy,sx })
+					if (map[sy][sx] == 'D')
 						return t;
 					q.push({ sy,sx });
 					avisit[sy][sx] = true;
+					stemp++;
 				}
 			}
 		}
+		widx = wtemp;
+		sidx = stemp;
 	}
 }
 
