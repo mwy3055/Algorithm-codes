@@ -61,19 +61,16 @@ int bfs(coord& s, coord& e)
 				}
 			}
 		}
+
 		for (int k = 0; k < sidx; k++)
 		{
 			top = q.front();
 			q.pop();
-			if (map[top.y][top.x] == '*')
-				continue;
 			for (int i = 0; i < 4; i++)
 			{
 				int sy = top.y + src[i][0], sx = top.x + src[i][1];
-				if (isin(sy, sx) && !avisit[sy][sx])
+				if (isin(sy, sx) && !avisit[sy][sx] && map[sy][sx] != '*')
 				{
-					if (map[sy][sx] == '*')
-						break;
 					if (map[sy][sx] == 'D')
 						return t;
 					q.push({ sy,sx });
@@ -85,6 +82,7 @@ int bfs(coord& s, coord& e)
 		widx = wtemp;
 		sidx = stemp;
 	}
+	return 0;
 }
 
 int main()

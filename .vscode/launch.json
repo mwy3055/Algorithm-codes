@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/hsk/source/repos/boj code/boj/c++/3055.exe",
+            "program": "C:\\Users\\hsk\\source\\repos\\boj code\\boj\\c++\\3055.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -24,27 +24,11 @@
                 }
             ]
         },
-        { 
-            "name": "(gdb) Attach",
-            "type": "cppdbg",
-            "request": "attach",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
-            "processId": "${command:pickProcess}",
-            "MIMode": "gdb",
-            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "program": "C:\\Users\\hsk\\source\\repos\\boj code\\boj\\c++\\3055.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
