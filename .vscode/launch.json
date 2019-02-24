@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            "program": "C:/Users/hsk/source/repos/boj code/boj/c++/3055.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
