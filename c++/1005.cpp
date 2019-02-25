@@ -17,9 +17,7 @@ int search(int w, vector<vector<int>>& parent)
 
     int maxv = -1;
     for (int p : parent[w])
-    {
         maxv = max(maxv, search(p, parent));
-    }
     return memoi[w] = btime[w] + maxv;
 }
 
