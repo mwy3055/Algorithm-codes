@@ -5,35 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Unit Tests",
-            "type": "python",
-            "request": "test"
-        },
-        {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:\\Users\\hsk\\source\\repos\\boj code\\boj\\c++\\11723.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "C:/MinGW/bin/gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "C:\\Users\\hsk\\source\\repos\\boj code\\boj\\c++\\3055.exe",
+            "program": "C:/Users/hsk/source/repos/boj code/compile/2493.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
