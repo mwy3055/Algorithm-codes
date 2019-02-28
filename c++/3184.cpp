@@ -5,10 +5,6 @@ using namespace std;
 struct coord
 {
     int y, x;
-    coord operator+(coord &c)
-    {
-        return coord({this->y + c.y, this->x + c.x});
-    }
 };
 
 char map[250][250];
