@@ -13,7 +13,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "C:/Users/hsk/source/repos/boj code/boj/compile/${fileBasenameNoExtension}"
             ],
             "group": "build",
 
@@ -45,7 +45,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "C:/Users/hsk/source/repos/boj code/boj/compile/${fileBasenameNoExtension}"
             ],
             "group": "build",
 
@@ -75,7 +75,7 @@
              "command": "cmd",
              "group": "test",
              "args": [
-                 "/C", "${fileDirname}\\${fileBasenameNoExtension}"
+                 "/C", "C:/Users/hsk/source/repos/boj code/boj/compile/${fileBasenameNoExtension}"
              ]
          }
         ]
