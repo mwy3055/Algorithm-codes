@@ -21,6 +21,7 @@ int main()
                 midx = j;
         }
         ismax[i][midx] = true;
+        msum += num[i][midx];
     }
 
     for (int i = 0; i < m; i++)
@@ -31,18 +32,8 @@ int main()
             if (num[midx][i] < num[j][i])
                 midx = j;
         }
-        ismax[midx][i] = true;
-    }
-
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (ismax[i][j])
-            {
-                msum += num[i][j];
-            }
-        }
+        if (!ismax[midx][i])
+            msum += num[midx][i];
     }
     cout << sum - msum;
 }
