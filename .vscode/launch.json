@@ -14,7 +14,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/hsk/source/repos/boj code/compile/2618.exe",
+            "program": "C:/Users/명우영/Documents/code/boj code/compile/${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
