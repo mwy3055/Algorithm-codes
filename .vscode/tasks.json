@@ -12,7 +12,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "C:/Users/명우영/Documents/code/boj code/compile/${fileBasenameNoExtension}"
+                "E:/code/boj code/compile/${fileBasenameNoExtension}"
             ],
             "group": {
                 "kind": "build",
@@ -40,7 +40,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "C:/Users/명우영/Documents/code/boj code/compile/${fileBasenameNoExtension}"
+                "E:/code/boj code/compile/${fileBasenameNoExtension}"
             ],
             "group": "build",
             "problemMatcher": {
@@ -64,7 +64,7 @@
             "group": "test",
             "args": [
                 "/C",
-                "C:/Users/명우영/Documents/code/boj code/compile/${fileBasenameNoExtension}"
+                "E:/code/boj code/compile/${fileBasenameNoExtension}"
             ]
         }
     ]
