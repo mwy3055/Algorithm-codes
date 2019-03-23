@@ -28,14 +28,10 @@ void getinput()
                 p[pidx].s = s = i;
             t++;
         }
-        else
+        if (mood[i] >= 0 || i == n - 1)
         {
             if (s != -1)
             {
-                for (int j = 1; j <= 2 * t && i - 1 - j >= 0; j++)
-                {
-                    gf[i - 1 - j] = 1;
-                }
                 p[pidx++].len = t;
                 if (maxl < t)
                     maxl = t;
@@ -43,27 +39,25 @@ void getinput()
             }
         }
     }
-    if (s != -1) //혹시 모르니까
-    {
-        for (int j = 1; j <= 2 * t && n - j >= 0; j++)
-        {
-            gf[n - j] = 1;
-        }
-        p[pidx++].len = t;
-        if (maxl < t)
-            maxl = t;
-    }
 }
 
 int solve()
 {
-    //꽃을 가장 많이 줄 수 있는 기간 찾기.
+    //일단 2T만 주자.
+    for (int i = 0; i < pidx; i++)
+    {
+        for (int j = 1; j <= 2 * p[i].len && p[i].s - j >= 0; j++)
+        {
+            gf[p[i].s - j] = 1;
+        }
+    }
     int rtn = 0;
     for (int i = 0; i < n; i++)
     {
         if (gf[i])
             rtn++;
     }
+
     //3T?
     int maxadd = 0;
     for (int i = 0; i < pidx; i++)
@@ -72,7 +66,10 @@ int solve()
         {
             int cnt = 0;
             for (int j = p[i].s - 2 * p[i].len - 1; 0 <= j && cnt < p[i].len; j--)
-                cnt++;
+            {
+                if (!gf[j])
+                    cnt++;
+            }
             maxadd = max(maxadd, cnt);
         }
     }
