@@ -43,7 +43,7 @@ void getinput()
 
 int solve()
 {
-    //ì¼ë‹¨ 2Të§Œ ì£¼ì.
+    //ÀÏ´Ü 2T
     for (int i = 0; i < pidx; i++)
     {
         for (int j = 1; j <= 2 * p[i].len && p[i].s - j >= 0; j++)
@@ -65,7 +65,7 @@ int solve()
         if (p[i].len == maxl)
         {
             int cnt = 0;
-            for (int j = 1; j<=p[i].len && 0<=p[i].s-2*p[i].len-j; j++) //ì—¬ê¸°ë§Œ ìˆ˜ì •í–ˆëŠ”ë°..
+            for (int j = 1; j<=p[i].len && 0<=p[i].s-2*p[i].len-j; j++) //3T Àû¿ë ±¸°£ Ã£±â
             {
                 if (!gf[p[i].s-2*p[i].len-j])
                     cnt++;
