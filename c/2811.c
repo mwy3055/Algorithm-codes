@@ -65,7 +65,7 @@ int solve()
         if (p[i].len == maxl)
         {
             int cnt = 0;
-            for (int j = 1; j<=p[i].len && 0<=p[i].s-2*p[i].len-j; j++) //3T 적용 구간 찾기
+            for (int j = 1; j<=p[i].len && 0<=p[i].s-2*p[i].len-j; j++) //3T 적용 구간 탐색
             {
                 if (!gf[p[i].s-2*p[i].len-j])
                     cnt++;
