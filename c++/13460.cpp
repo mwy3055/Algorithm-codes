@@ -2,16 +2,22 @@
 #include <queue>
 using namespace std;
 
+int src[4][2] = {-1, 0, 1, 0, 0, -1, 0, 1}; //상하좌우
 struct coord
 {
-    int y, x;
+    int y, x, dir;
+    char c;
     bool operator==(const coord t)
     {
         return this->y == t.y && this->x == t.x;
     }
+    coord operator+(const int i)
+    {
+        return coord{this->y + src[i][0], this->x + src[i][1], this->dir, this->c};
+    }
     void operator+=(const int i)
     {
-        static int src[4][2] = {-1, 0, 1, 0, 0, -1, 0, 1};
+
         this->y += src[i][0];
         this->x += src[i][1];
     }
@@ -30,39 +36,115 @@ coord Find(char c)
         {
             if (map[i][j] == c)
             {
-                return coord{i, j};
+                return coord{i, j, -1, c};
             }
         }
     }
-    return coord{0, 0};
+    return coord{0, 0, -1, c};
+}
+
+void sameline(int dir, coord &s, coord &t, coord &front, coord &back)
+{
+    //상하좌우
+    if (dir == 0 && s.x == t.x)
+    {
+        if (s.y < t.y)
+        {
+            front = s;
+            back = t;
+        }
+        else
+        {
+            front = t;
+            back = s;
+        }
+    }
+    else if (dir == 1 && s.x == t.x)
+    {
+        if (s.y < t.y)
+        {
+            front = t;
+            back = s;
+        }
+        else
+        {
+            front = s;
+            back = t;
+        }
+    }
+    else if (dir == 2 && s.y == t.y)
+    {
+        if (s.x < t.x)
+        {
+            front = s;
+            back = t;
+        }
+        else
+        {
+            front = t;
+            back = s;
+        }
+    }
+    else if (dir == 3 && s.y == t.y)
+    {
+        if (s.x < t.x)
+        {
+            front = t;
+            back = s;
+        }
+        else
+        {
+            front = s;
+            back = t;
+        }
+    }
+}
+bool roll(queue<coord> &q, int dir, coord c, coord &HOLE)
+{
+    if (c.dir == dir)
+        return false;
+
+    while (get(c + dir) != '#')
+    {
+        c += dir;
+        if (c.c == 'R' && c == HOLE)
+            return true;
+    }
+    c.dir = dir;
+    q.push(c);
+    return false;
 }
 
 int bfs(int &n, int &m)
 {
     coord R = Find('R'), B = Find('B'), HOLE = Find('O');
+    map[R.y][R.x] = map[B.y][B.x] = '.';
 
-    queue<coord> q; //항상 r, b 좌표가 쌍으로 들어있음
+    queue<coord> q;
     q.push(R);
     q.push(B);
     int rtn = 0;
     while (!q.empty())
     {
-        coord &r = q.front();
-        q.pop();
-        coord &b = q.front();
-        q.pop();
+        int siz = q.size() / 2;
         rtn++;
-
-        for (int dir = 0; dir < 4; dir++) //상하좌우
+        for (int a = 0; a < siz; a++)
         {
-            coord tr = r, tb = b;
-            //두 구슬이 같은 방향에 있다면: 굴릴 때 처리..
-/*            while (get(tr + dir) == '.')
+            coord first = q.front();
+            q.pop();
+            coord second = q.front();
+            q.pop();
+
+            for (int dir = 0; dir < 4; dir++) //상하좌우
             {
-                tr += dir;
-                if (tr == HOLE)
+                coord front = first, back = second;
+                sameline(dir, front, back, front, back);
+
+                if (roll(q, dir, front, HOLE))
                     return rtn;
-            }*/
+                if (roll(q, dir, back, HOLE))
+                    return rtn;
+            }
         }
     }
     return rtn;
