@@ -10,5 +10,6 @@
     "python.unitTest.unittestEnabled": false,
     "python.unitTest.nosetestsEnabled": false,
     "python.unitTest.pyTestEnabled": false,
-    "python.unitTest.promptToConfigure": false
+    "python.unitTest.promptToConfigure": false,
+    "python.pythonPath": "D:\\Anaconda\\python.exe"
 }
