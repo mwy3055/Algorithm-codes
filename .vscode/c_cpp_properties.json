@@ -14,7 +14,7 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "__GNUC__=6",
+                "__GNUC__=8",
                 "__cdecl=__attribute__((__cdecl__))"
             ],
             "intelliSenseMode": "clang-x64",
