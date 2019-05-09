@@ -13,5 +13,5 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.pyTestEnabled": false,
     "python.testing.promptToConfigure": false,
-    "python.pythonPath": "D:\\Programs\\Anaconda\\python.exe"
+    "python.pythonPath": "D:\\Programs\\Python\\python.exe"
 }
