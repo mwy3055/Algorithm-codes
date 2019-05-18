@@ -65,16 +65,12 @@ int main()
         cin >> maze[i];
 
     int ans = 0;
+    vector<vector<bool>> isvisit = vector<vector<bool>>(n, vector<bool>(m, false));
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
-            if (can_escape[i][j] == 0)
-            {
-                vector<vector<bool>> isvisit = vector<vector<bool>>(n, vector<bool>(m, false));
-                escape(Coord(i, j), isvisit);
-            }
-            if (can_escape[i][j] == 1)
+            if (escape(Coord(i, j), isvisit) == 1)
                 ans++;
         }
     }
