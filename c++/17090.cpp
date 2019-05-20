@@ -1,58 +1,52 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
-class Coord
-{
-public:
-    int y, x;
-    Coord(int y = 0, int x = 0) : y(y), x(x) {}
-    void operator+=(Coord c)
-    {
-        this->y += c.y;
-        this->x += c.x;
-    }
-    Coord operator+(Coord c)
-    {
-        return Coord(this->y + c.y, this->x + c.x);
-    }
-};
-
 int n, m;
-char maze[500][500], can_escape[500][500];
+char maze[500][501], escape[500][500];
+/*
+    escape 배열의 값
+    0: 아직 탐색하지 않음
+    1: 탈출 가능
+    2: 탈출 불가능
+    3: 탐색중(경로에 포함되는 점)
+*/
 
-inline Coord getmaze(const Coord &c)
+bool isin(int &y, int &x)
 {
-    char cur = maze[c.y][c.x];
-    switch (cur)
+    return 0 <= y && y < n && 0 <= x && x < m;
+}
+void getnext(int &y, int &x, char &now)
+{
+    switch (now)
     {
     case 'U':
-        return Coord(-1, 0);
+        y -= 1;
+        break;
     case 'D':
-        return Coord(1, 0);
+        y += 1;
+        break;
     case 'L':
-        return Coord(0, -1);
-    default:
-        return Coord(0, 1);
+        x -= 1;
+        break;
+    case 'R':
+        x += 1;
+        break;
     }
 }
-inline bool isin(const Coord &c)
+char dfs(int &y, int &x)
 {
-    return 0 <= c.y && c.y < n && 0 <= c.x && c.x < m;
-}
-char escape(Coord c, vector<vector<bool>> &isvisit)
-{
-    if (!isin(c))
-        return 1;
+    char &cur = escape[y][x];
+    cur = 3;
 
-    char &esc = can_escape[c.y][c.x];
-    if (esc)
-        return esc;
-    if (isvisit[c.y][c.x])
-        return esc = 2;
+    int sy = y, sx = x;
+    getnext(sy, sx, maze[y][x]);
 
-    isvisit[c.y][c.x] = true;
-    return can_escape[c.y][c.x] = escape(c + getmaze(c), isvisit);
+    if (!isin(sy, sx) || escape[sy][sx] == 1)
+        return cur = 1;
+    if (escape[sy][sx] == 2 || escape[sy][sx] == 3)
+        return cur = 2;
+
+    return cur = dfs(sy, sx);
 }
 
 int main()
@@ -65,15 +59,15 @@ int main()
         cin >> maze[i];
 
     int ans = 0;
-    vector<vector<bool>> isvisit = vector<vector<bool>>(n, vector<bool>(m, false));
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
-            if (escape(Coord(i, j), isvisit) == 1)
+            if (escape[i][j] == 0)
+                dfs(i, j);
+            if (escape[i][j] == 1)
                 ans++;
         }
     }
-
     cout << ans;
 }
