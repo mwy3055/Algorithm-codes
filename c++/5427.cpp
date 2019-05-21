@@ -27,7 +27,7 @@ void bfs_fire()
     int siz = fire.size();
     while (siz--)
     {
-        Coord &top = fire.front();
+        Coord top = fire.front();
         fire.pop();
 
         for (int i = 0; i < 4; i++)
@@ -51,7 +51,7 @@ bool bfs_sk()
     int siz = q.size();
     while (siz--)
     {
-        Coord &top = q.front();
+        Coord top = q.front();
         q.pop();
 
         for (int i = 0; i < 4; i++)
