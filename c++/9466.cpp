@@ -1,19 +1,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void dfs(int *select, char *state, stack<int> &s, int cur)
+void dfs(int *select, char *state, stack<int> &s, int &start, int &cur)
 {
     char &ref = state[cur];
 
     if (ref == 3)
     {
-        while (s.top() != cur)
+        while (!s.empty() && s.top() != cur)
         {
             state[s.top()] = 1;
             s.pop();
         }
-        ref = 1;
-        s.pop();
+        state[cur] = 1;
+        if (!s.empty())
+            s.pop();
 
         while (!s.empty())
         {
@@ -31,10 +32,19 @@ void dfs(int *select, char *state, stack<int> &s, int cur)
         }
         return;
     }
+    else if (ref == 1 && start != cur)
+    {
+        while (!s.empty())
+        {
+            state[s.top()] = 2;
+            s.pop();
+        }
+        return;
+    }
 
     ref = 3;
     s.push(cur);
-    dfs(select, state, s, select[cur]);
+    dfs(select, state, s, start, select[cur]);
 }
 int solve()
 {
@@ -52,7 +62,7 @@ int solve()
     for (int i = 1; i <= n; i++)
     {
         if (state[i] == 0)
-            dfs(select, state, s, i);
+            dfs(select, state, s, i, i);
 
         if (state[i] == 1)
             ans--;
