@@ -1,55 +1,65 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool iscycle(int *choice, bool *checked, bool *curcheck, int &start, int cur, int &dep)
+void dfs(int *select, char *state, stack<int> &s, int cur)
 {
-    if (start == cur) //사이클 성립
-    {
-        checked[start] = true;
-        return true;
-    }
-    if (curcheck[cur]) //사이클 성립 불가
-        return false;
+    char &ref = state[cur];
 
-    dep++;
-    curcheck[cur] = true;
-    if (iscycle(choice, checked, curcheck, start, choice[cur], dep))
+    if (ref == 3)
     {
-        checked[cur] = true;
-        return true;
+        while (s.top() != cur)
+        {
+            state[s.top()] = 1;
+            s.pop();
+        }
+        ref = 1;
+        s.pop();
+
+        while (!s.empty())
+        {
+            state[s.top()] = 2;
+            s.pop();
+        }
+        return;
     }
-    else
+    else if (ref == 2)
     {
-        return false;
+        while (!s.empty())
+        {
+            state[s.top()] = 2;
+            s.pop();
+        }
+        return;
     }
+
+    ref = 3;
+    s.push(cur);
+    dfs(select, state, s, select[cur]);
 }
-
 int solve()
 {
-    int n, choice[100000], ans;
-    bool checked[100000] = {false};
+    int n;
     cin >> n;
-    ans = n;
-    for (int i = 0; i < n; i++)
+    int *select = new int[n + 1];
+    for (int i = 1; i <= n; i++)
+        cin >> select[i];
+
+    char *state = new char[n + 1];
+    memset(state, 0, (n + 1) * sizeof(char));
+    stack<int> s;
+
+    int ans = n;
+    for (int i = 1; i <= n; i++)
     {
-        cin >> choice[i];
-        if (i == --choice[i])
-        {
+        if (state[i] == 0)
+            dfs(select, state, s, i);
+
+        if (state[i] == 1)
             ans--;
-            checked[i] = true;
-        }
     }
 
-    for (int i = 0; i < n; i++)
-    {
-        if (checked[i])
-            continue;
-
-        bool curcheck[100000] = {false};
-        int dep = 1;
-        if (iscycle(choice, checked, curcheck, i, choice[i], dep))
-            ans -= dep;
-    }
+    delete[] select;
+    delete[] state;
     return ans;
 }
 
