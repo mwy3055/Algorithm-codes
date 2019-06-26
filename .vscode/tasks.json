@@ -3,7 +3,9 @@
     "runner": "terminal",
     "type": "shell",
     "echoCommand": true,
-    "presentation" : { "reveal": "always" },
+    "presentation": {
+        "reveal": "always"
+    },
     "tasks": [
         {
             "label": "save and compile for C++",
@@ -12,7 +14,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "E:/code/boj code/compile/${fileBasenameNoExtension}"
+                "D:/code/boj/compile/${fileBasenameNoExtension}"
             ],
             "group": {
                 "kind": "build",
@@ -40,7 +42,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "E:/code/boj code/compile/${fileBasenameNoExtension}"
+                "D:/code/boj/compile/${fileBasenameNoExtension}"
             ],
             "group": "build",
             "problemMatcher": {
@@ -64,7 +66,7 @@
             "group": "test",
             "args": [
                 "/C",
-                "E:/code/boj code/compile/${fileBasenameNoExtension}"
+                "D:/code/boj/compile/${fileBasenameNoExtension}"
             ]
         }
     ]
