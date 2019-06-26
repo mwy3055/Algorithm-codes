@@ -52,21 +52,12 @@ int main()
     cin >> v;
     vector<vector<Pair>> adj(v + 1, vector<Pair>());
 
-    for (int i = 1; i <= v; i++)
+    for (int i = 0; i < v - 1; i++)
     {
-        int nth;
-        cin >> nth;
-        while (true)
-        {
-            int a, b;
-            cin >> a;
-            if (a == -1)
-                break;
-
-            cin >> b;
-            adj[a].push_back(Pair(nth, b));
-            adj[nth].push_back(Pair(a, b));
-        }
+        int a, b, c;
+        cin >> a >> b >> c;
+        adj[a].push_back(Pair(b, c));
+        adj[b].push_back(Pair(a, c));
     }
 
     int ans;
