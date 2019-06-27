@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - P11662",
+            "request": "launch",
+            "mainClass": "P11662",
+            "projectName": "boj_1a8a0f86"
+        },
+        {
+            "type": "java",
+            "name": "Java Debug (Launch)",
+            "request": "launch",
+            "mainClass": "${file}",
+            "jdkpath": "C:/Program Files/AdoptOpenJDK/jdk-11.0.3.7-hotspot/bin"
+        },
+        {
             "name": "Python: Current File (Integrated Terminal)",
             "type": "python",
             "request": "launch",
