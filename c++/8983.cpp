@@ -1,63 +1,49 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-typedef pair<int, int> coord; //x,y
-typedef pair<coord, bool> animal;
-inline int max(int a, int b)
+struct Animal
 {
-	return a < b ? a : b;
-}
-inline int abs(int a)
-{
-	return a > 0 ? a : -a;
-}
-int dist(animal a, int b)
-{
-	return a.first.second + abs(a.first.first - b);
-}
+	int x, y;
+	Animal(int x = 0, int y = 0) : x(x), y(y) {}
+};
 
+int dist(const Animal &a, int g)
+{
+	return (a.x - g > 0 ? (a.x - g) : (g - a.x)) + a.y;
+}
+//x 이하인 최초의 위치를 찾아야 함
 int main()
 {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-
 	int m, n, l;
 	cin >> m >> n >> l;
-	bool* gun = new bool[m];
-	animal* anm = new animal[n];
-
-	for (int i = 0; i < m; i++)
-	{
-		int g;
+	vector<int> gun(m);
+	vector<Animal> animal(n);
+	for (int &g : gun)
 		cin >> g;
-		gun[g] = true;
-	}
-	for (int i = 0; i < n; i++)
-	{
-		cin >> anm[i].first.first >> anm[i].first.second;
-		anm[i].second = false;
-	}
+	for (Animal &a : animal)
+		cin >> a.x >> a.y;
+
+	sort(gun.begin(), gun.end());
 
 	int ans = 0;
-	for (int i = 0; i < n; i++)
+	for (Animal &a : animal)
 	{
-		for (int j = max(1,j+anm[i].first.first); j <= anm[i].first.first+l; j++)
-		{
-			int x = j + anm[i].first.first;
-			if (x <= 0)
-				continue;
+		auto right = lower_bound(gun.begin(), gun.end(), a.x);
+		auto left = right - 1;
 
-			if (gun[x])
-			{
-				ans++;
-				break;
-			}
+		//이터레이터가 [begin, end) 범위를 벗어나지 않도록..
+		if ((right != gun.begin() && dist(a, *left) <= l) ||
+			(right != gun.end() && dist(a, *right) <= l))
+		{
+			ans++;
+		}
+		else
+		{
+			cout << *left << ' ' << *right << ' ' << "Animal " << a.x << ' ' << a.y << " can't be hunted\n";
 		}
 	}
 	cout << ans;
-
-
-	delete[] anm;
-	delete[] gun;
 }
