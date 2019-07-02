@@ -1,101 +1,103 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Map
+enum dir
 {
-public:
-    enum dir
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    };
-    int arr[3][3];
-    int y, x;
-    Map() {}
-    Map(int (*arr)[3], int y, int x) : y(y), x(x)
-    {
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                this->arr[i][j] = arr[i][j];
-    }
-    bool isclear()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                if (arr[i][j] != ((i == 2 && j == 2) ? 0 : (i * 3 + (j + 1))))
-                    return false;
-            }
-        }
-        return true;
-    }
-    int toint()
-    {
-        int sq = 1, rtn = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                rtn += sq * arr[i][j];
-                sq *= 10;
-            }
-        }
-        return rtn;
-    }
-    Map move(dir d)
-    {
-        Map temp = *this;
-        switch (d)
-        {
-        case Map::LEFT:
-            if (temp.x != 0)
-            {
-                temp.arr[y][x] = temp.arr[y][x - 1];
-                temp.arr[y][x - 1] = 0;
-                temp.x--;
-            }
-            break;
-        case Map::RIGHT:
-            if (temp.x != 2)
-            {
-                temp.arr[y][x] = temp.arr[y][x + 1];
-                temp.arr[y][x + 1] = 0;
-                temp.x++;
-            }
-            break;
-        case Map::DOWN:
-            if (temp.y != 2)
-            {
-                temp.arr[y][x] = temp.arr[y + 1][x];
-                temp.arr[y + 1][x] = 0;
-                temp.y++;
-            }
-            break;
-        default: //UP
-            if (temp.y != 0)
-            {
-                temp.arr[y][x] = temp.arr[y - 1][x];
-                temp.arr[y - 1][x] = 0;
-                temp.y--;
-            }
-            break;
-        }
-        return temp;
-    }
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 };
-set<int> s;
-
-int bfs(Map &first)
+bool isclear(int n)
 {
-    if (first.isclear())
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if ((n % 10) != ((i == 2 && j == 2) ? 0 : (i * 3 + (j + 1))))
+                return false;
+            n /= 10;
+        }
+    }
+    return true;
+}
+int toint(int (*arr)[3])
+{
+    int sq = 1, rtn = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            rtn += sq * arr[i][j];
+            sq *= 10;
+        }
+    }
+    return rtn;
+}
+void toarr(int n, int (*arr)[3], int &y, int &x)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            arr[i][j] = n % 10;
+            if (arr[i][j] == 0)
+            {
+                y = i;
+                x = j;
+            }
+            n /= 10;
+        }
+    }
+}
+int move(int n, dir d)
+{
+    int arr[3][3], y, x;
+    toarr(n, arr, y, x);
+
+    switch (d)
+    {
+    case LEFT:
+        if (x != 0)
+        {
+            arr[y][x] = arr[y][x - 1];
+            arr[y][x - 1] = 0;
+        }
+        break;
+    case RIGHT:
+        if (x != 2)
+        {
+            arr[y][x] = arr[y][x + 1];
+            arr[y][x + 1] = 0;
+        }
+        break;
+    case DOWN:
+        if (y != 2)
+        {
+            arr[y][x] = arr[y + 1][x];
+            arr[y + 1][x] = 0;
+        }
+        break;
+    default: //UP
+        if (y != 0)
+        {
+            arr[y][x] = arr[y - 1][x];
+            arr[y - 1][x] = 0;
+        }
+        break;
+    }
+    return toint(arr);
+}
+
+int bfs(int first)
+{
+    if (isclear(first))
         return 0;
 
-    queue<Map> q;
+    set<int> s;
+    queue<int> q;
 
-    s.insert(first.toint());
+    s.insert(first);
     q.push(first);
 
     int nth = 1;
@@ -104,18 +106,18 @@ int bfs(Map &first)
         int siz = q.size();
         while (siz--)
         {
-            Map top = q.front();
+            int top = q.front();
             q.pop();
 
             for (int i = 0; i < 4; i++)
             {
-                Map next = top.move((Map::dir)i);
-                if (next.isclear())
+                int next = move(top, (dir)i);
+                if (isclear(next))
                     return nth;
 
-                if (s.find(next.toint()) == s.end())
+                if (s.find(next) == s.end())
                 {
-                    s.insert(next.toint());
+                    s.insert(next);
                     q.push(next);
                 }
             }
@@ -130,20 +132,14 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    int arr[3][3], y, x;
+    int arr[3][3];
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
             cin >> arr[i][j];
-            if (arr[i][j] == 0)
-            {
-                y = i;
-                x = j;
-            }
         }
     }
 
-    Map first(arr, y, x);
-    cout << bfs(first);
+    cout << bfs(toint(arr));
 }
