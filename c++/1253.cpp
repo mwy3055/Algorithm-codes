@@ -16,27 +16,28 @@ void search_start(int &s, int &e, int &sum, int &idx)
 }
 bool two_pointer(int idx) //how?
 {
-    ll s, e, sum, ans = num[idx];
+    ll s = 0, e = n - 1, ans = num[idx];
+    if (s == idx)
+        s++;
+    if (e == idx)
+        e--;
 
-    search_start(s, e, sum, idx);
-    while (s < n)
+    while (s < e)
     {
-        if (ans < sum)
+        if (num[s] + num[e] == ans)
+            return true;
+        else if (num[s] + num[e] < ans)
         {
-            break;
-        }
-        else if (e == n - 1)
-        {
-            break;
+            s++;
+            if (s == idx)
+                s++;
         }
         else
         {
-            if (e + 1 == idx)
-                e++;
-            sum += num[++e];
+            e--;
+            if (e == idx)
+                e--;
         }
-        if (sum == ans)
-            return true;
     }
     return false;
 }
