@@ -4,6 +4,7 @@ using namespace std;
 
 int n, m, l, r;
 char map[1000][1000];
+bool visit[1000][1000];
 
 class Coord
 {
@@ -16,9 +17,9 @@ public:
     }
 };
 
+//»óÇÏ·Î´Â Âß ³Ö°í, ÁÂ¿ì·Î´Â ÇÑÄ­¾¿
 int bfs(int &fy, int &fx)
 {
-    bool visit[1000][1000] = {false};
     int cnt = 1;
     queue<Coord> q;
 
@@ -31,19 +32,21 @@ int bfs(int &fy, int &fx)
         q.pop();
 
         int sy = top.y - 1, sx = top.x;
-        if (Coord::isgo(sy, sx))
+        while (Coord::isgo(sy, sx))
         {
             visit[sy][sx] = true;
             q.push(Coord(sy, sx, top.l, top.r));
             cnt++;
+            sy--;
         }
 
         sy = top.y + 1;
-        if (Coord::isgo(sy, sx))
+        while (Coord::isgo(sy, sx))
         {
             visit[sy][sx] = true;
             q.push(Coord(sy, sx, top.l, top.r));
             cnt++;
+            sy++;
         }
 
         sy = top.y, sx = top.x - 1;
