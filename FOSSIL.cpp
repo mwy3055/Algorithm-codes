@@ -42,7 +42,7 @@ bool between(const point &a, const point &b, double x)
 double meet_y(const point &a, const point &b, double x)
 {
     double dx = b.x - a.x, dy = b.y - a.y;
-    return a.y + dy * (x - a.x) / dx;
+    return a.y + dy / dx * (x - a.x);
 }
 
 double meetWidth(double x)
