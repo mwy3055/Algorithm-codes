@@ -1,6 +1,6 @@
 int GCD(int a, int b)
 {
-    //ºÒº¯½Ä: a <= b
+    //constraint: a <= b
     if (a > b)
     {
         int temp = a;
