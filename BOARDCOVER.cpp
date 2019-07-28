@@ -20,7 +20,7 @@ bool isin(int &h, int &w, int y, int x)
 {
     return 0 <= y && y < h && 0 <= x && x < w;
 }
-bool cancover(int &h, int &w, int y, int x, int block)
+bool cancover(int &h, int &w, int y, int x, int block) //(y, x) 위치에 block을 놓을 수 있는가?
 {
     for (int i = 0; i < 3; i++)
     {
@@ -30,7 +30,7 @@ bool cancover(int &h, int &w, int y, int x, int block)
     }
     return true;
 }
-void setboard(int y, int x, int block, char c)
+void setboard(int y, int x, int block, char c) //(y, x) 위치에 block을 놓거나 뗌
 {
     for (int i = 0; i < 3; i++)
     {
@@ -38,7 +38,7 @@ void setboard(int y, int x, int block, char c)
         board[sy][sx] = c;
     }
 }
-void findblank(int &h, int &w, int &y, int &x)
+void findblank(int &h, int &w, int &y, int &x) //채워지지 않은 가장 왼쪽 위 빈칸을 찾음
 {
     for (int i = 0; i < h; i++)
     {
