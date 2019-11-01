@@ -17,7 +17,7 @@ void solve(int left) //골라야 하는 숫자의 수
     for (int i = 1; i <= n; i++)
     {
         push.push_back(i);
-        solve(dep + 1, left - 1);
+        solve(left - 1);
         push.pop_back();
     }
 }
