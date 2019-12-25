@@ -2,9 +2,14 @@
     "editor.formatOnSave": true,
     "clang-format.executable": "C:/Users/s_mwy3055/.vscode/extensions/xaver.clang-format-1.9.0",
     "files.associations": {
+        "*.c": "c",
         "vector": "cpp",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "valarray": "cpp"
     },
     "python.testing.pytestArgs": [
         "python"
