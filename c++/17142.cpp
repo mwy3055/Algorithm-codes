@@ -37,7 +37,6 @@ int bfs(int *arr) // 퍼뜨리는 최소 시간
     while (!q.empty() && left)
     {
         int qsize = q.size();
-        bool alltwo = true;
         for (int a = 0; a < qsize; a++)
         {
             auto &top = q.front();
@@ -50,7 +49,6 @@ int bfs(int *arr) // 퍼뜨리는 최소 시간
                 {
                     if (map[sy][sx] == 0 && !visit[sy][sx])
                     {
-                        alltwo = false;
                         q.push(coord(sy, sx));
                         visit[sy][sx] = true;
                         left--;
