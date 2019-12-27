@@ -33,7 +33,6 @@ int bfs(int *arr) // 퍼뜨리는 최소 시간
         }
     }
 
-    int endedwithtwo = 0;
     while (!q.empty() && left)
     {
         int qsize = q.size();
