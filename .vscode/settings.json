@@ -9,7 +9,15 @@
         "chrono": "cpp",
         "random": "cpp",
         "limits": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "complex": "cpp",
+        "istream": "cpp",
+        "streambuf": "cpp",
+        "regex": "cpp",
+        "tuple": "cpp",
+        "ratio": "cpp"
     },
     "python.testing.pytestArgs": [
         "python"
