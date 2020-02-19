@@ -10,7 +10,7 @@ void init()
 
 int find(int n)
 {
-    if (root[n] < n)
+    if (root[n] < 0)
         return n;
     return root[n] = find(root[n]);
 }
