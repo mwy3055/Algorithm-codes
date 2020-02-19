@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
+const int MOD = 1000000007;
 class SquareMatrix
 {
 private:
@@ -36,9 +36,9 @@ public:
         {
             for (int i = 0; i < siz; i++)
             {
-                int r = this->matrix[i][k];
+                long long r = this->matrix[i][k];
                 for (int j = 0; j < siz; j++)
-                    rtn[i][j] += r * b.matrix[k][j];
+                    rtn[i][j] = (rtn[i][j] + r * b.matrix[k][j]) % MOD;
             }
         }
 
@@ -62,29 +62,29 @@ public:
     }
 };
 
-istream &operator>>(istream &in, SquareMatrix &matrix)
-{
-    int siz = matrix.getsiz();
-    for (int i = 0; i < siz; i++)
-    {
-        for (int j = 0; j < siz; j++)
-        {
-            cin >> matrix[i][j];
-        }
-    }
+// 정보과학관	전산관	신양관	진리관	학생회관	형남공학관	한경직	미래관
 
-    return in;
-}
+int data[][8] = {0, 1, 0, 0, 0, 0, 0, 1,
+                 1, 0, 1, 0, 0, 0, 0, 1,
+                 0, 1, 0, 1, 0, 0, 1, 1,
+                 0, 0, 1, 0, 1, 0, 1, 0,
+                 0, 0, 0, 1, 0, 1, 0, 0,
+                 0, 0, 0, 0, 1, 0, 1, 0,
+                 0, 0, 1, 1, 0, 1, 0, 1,
+                 1, 1, 1, 0, 0, 0, 1, 0};
 
-ostream &operator<<(ostream &out, const SquareMatrix &matrix)
+int main()
 {
-    int siz = matrix.getsiz();
-    for (int i = 0; i < siz; i++)
-    {
-        for (int j = 0; j < siz; j++)
-        {
-            cout << matrix[i][j] << ' ';
-        }
-        cout << '\n';
-    }
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    SquareMatrix m(8);
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            m[i][j] = data[i][j];
+
+    int d;
+    cin >> d;
+    SquareMatrix result = SquareMatrix::pow(m, d);
+    cout << result[0][0];
 }
