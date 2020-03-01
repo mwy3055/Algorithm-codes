@@ -76,7 +76,7 @@ istream &operator>>(istream &in, SquareMatrix &matrix)
     return in;
 }
 
-ostream &operator<<(ostream &out, const SquareMatrix &matrix)
+ostream &operator<<(ostream &out, SquareMatrix &matrix)
 {
     int siz = matrix.getsiz();
     for (int i = 0; i < siz; i++)
