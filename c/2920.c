@@ -1,41 +1,29 @@
 #include <stdio.h>
 
-void check_asc(short* sc);
-void check_dsc(short* sc);
-
-void main() {
-	short scale[8];
-	int i = 0;
-	for (; i <= 7; i++) scanf("%hd", scale + i);
-	switch (*scale) {
-	case 1:
-		check_asc(scale);
-		break;
-	case 8:
-		check_dsc(scale);
-		break;
-	}
+int ascending(int *arr)
+{
+	for (int i = 0; i < 7; i++)
+		if (arr[i] >= arr[i + 1])
+			return 0;
+	return 1;
+}
+int descending(int *arr)
+{
+	for (int i = 0; i < 7; i++)
+		if (arr[i] <= arr[i + 1])
+			return 0;
+	return 1;
 }
 
-void check_asc(short* sc) {
-	int i = 0, count = 1;
-	for (; i <= 7; i++) {
-		if (*(sc + i) != i+1) {
-			count = 0;
-			break;
-		}
-	}
-	if (count == 1) printf("ascending");
-	else printf("mixed");
-}
-void check_dsc(short* sc) {
-	int i = 0, count = 1;
-	for (; i <= 7; i++) {
-		if (*(sc + i) != 8 - i) {
-			count = 0;
-			break;
-		}
-	}
-	if (count == 1) printf("descending");
-	else printf("mixed");
+int main()
+{
+	int arr[8];
+	for (int i = 0; i < 8; i++)
+		scanf("%d", arr + i);
+	if (ascending(arr))
+		printf("ascending");
+	else if (descending(arr))
+		printf("descending");
+	else
+		printf("mixed");
 }
