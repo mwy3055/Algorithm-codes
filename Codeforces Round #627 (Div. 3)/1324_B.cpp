@@ -2,13 +2,14 @@
 using namespace std;
 
 int dp[5001][5001] = {0};
-void init()
+void init(int n)
 {
-    for (int i = 0; i <= 5000; i++)
-        memset(dp + i, 0, sizeof(int) * 5001);
+    for (int i = 0; i <= n; i++)
+        memset(dp + i, 0, sizeof(int) * (n + 1));
 }
 int solve(vector<int> &a)
 {
+    init(a.size());
     vector<int> b = a;
     reverse(b.begin(), b.end());
     int mlen = 0;
@@ -21,8 +22,6 @@ int solve(vector<int> &a)
             else
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
             mlen = max(mlen, dp[i][j]);
-            if (3 <= mlen)
-                return mlen;
         }
     }
     return mlen;
@@ -36,8 +35,6 @@ int main()
     cin >> t;
     while (t--)
     {
-        init();
-
         int n;
         cin >> n;
         vector<int> arr(n);
