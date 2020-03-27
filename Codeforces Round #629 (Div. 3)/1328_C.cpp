@@ -14,6 +14,7 @@ int main()
         cin >> n;
         string x, a, b;
         cin >> x;
+        bool same = true;
         for (int i = 0; i < n; i++)
         {
             if (x[i] == '0')
@@ -23,13 +24,30 @@ int main()
             }
             else if (x[i] == '1')
             {
-                a.push_back('1');
-                b.push_back('0');
+                if (same)
+                {
+                    a.push_back('1');
+                    b.push_back('0');
+                    same = false;
+                }
+                else
+                {
+                    a.push_back('0');
+                    b.push_back('1');
+                }
             }
             else
             {
-                a.push_back('1');
-                b.push_back('1');
+                if (same)
+                {
+                    a.push_back('1');
+                    b.push_back('1');
+                }
+                else
+                {
+                    a.push_back('0');
+                    b.push_back('2');
+                }
             }
         }
         cout << a << '\n'
