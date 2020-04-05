@@ -10,7 +10,6 @@ def getcomb(n, k):
         comb[n][k] = 1
         return comb[n][k]
     if comb[n][k] != 0:
-
         return comb[n][k]
     comb[n][k] = getcomb(n-1, k)+getcomb(n-1, k-1)
     return comb[n][k]
