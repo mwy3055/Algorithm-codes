@@ -2,19 +2,21 @@
 #include <vector>
 using namespace std;
 
-typedef pair<int, pair<int, int>> pip; // cost, <start, dest>
-typedef vector<pip> vp;
+typedef long long ll;
+typedef pair<ll, pair<int, int>> plp; // cost, <start, dest>
+typedef vector<plp> vp;
 
-const int INF = 0x3f3f3f3f;
+const int INF = 0x6f3f3f3f;
 
-bool bellman_ford(vp &adj, vector<int> &d, int &n)
+bool bellman_ford(vp &adj, vector<ll> &d, int &n)
 {
     d[1] = 0;
     for (int a = 1; a < n; a++)
     {
         for (auto &edge : adj)
         {
-            int &cost = edge.first, &s = edge.second.first, &e = edge.second.second;
+            auto &cost = edge.first;
+            auto &s = edge.second.first, &e = edge.second.second;
             if (d[s] == INF)
                 continue;
             else if (d[s] + cost < d[e])
@@ -26,7 +28,8 @@ bool bellman_ford(vp &adj, vector<int> &d, int &n)
 
     for (auto &edge : adj)
     {
-        int &cost = edge.first, &s = edge.second.first, &e = edge.second.second;
+        auto &cost = edge.first;
+        auto &s = edge.second.first, &e = edge.second.second;
         if (d[e] != INF && d[s] + cost < d[e])
             return false;
     }
@@ -48,7 +51,7 @@ int main()
         adjList.push_back({c, {a, b}});
     }
 
-    vector<int> d(n + 1, INF);
+    vector<ll> d(n + 1, INF);
     if (!bellman_ford(adjList, d, n))
         cout << -1;
     else
