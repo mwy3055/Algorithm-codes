@@ -31,7 +31,8 @@
         "system_error": "cpp",
         "functional": "cpp",
         "type_traits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iosfwd": "cpp"
     },
     "python.testing.pytestArgs": [
         "python"
