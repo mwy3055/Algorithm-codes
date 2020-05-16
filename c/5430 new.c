@@ -5,7 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
-int exe(char* f,int size,int* fr,int* bk) //정방향:1, 역방향:0 , 에러:-1 리턴
+int exe(char *f, int size, int *fr, int *bk) //정방향:1, 역방향:0 , 에러:-1 리턴
 {
 	int rev = 1; //얘는 1 or 0
 	for (int i = 0; f[i]; i++)
@@ -41,7 +41,7 @@ int main()
 		int i = 0;
 		scanf("%s %d", f, &n);
 		int fr = 0, bk = n - 1;
-		int* num = (int*)calloc(n, sizeof(int)); //0~(n-1)번까지
+		int *num = (int *)calloc(n, sizeof(int)); //0~(n-1)번까지
 		while (1)
 		{
 			char c;
@@ -53,7 +53,7 @@ int main()
 			else if (c == ']')
 				break;
 		}
-		int rev=exe(f, n, &fr, &bk);
+		int rev = exe(f, n, &fr, &bk);
 		if (rev == 1) //정방향
 		{
 			printf("[");
