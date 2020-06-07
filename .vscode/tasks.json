@@ -11,10 +11,11 @@
             "label": "save and compile for C++",
             "command": "g++",
             "args": [
-                "${file}",
                 "-g",
                 "-o",
-                "E:/code/boj code/compile/${fileBasenameNoExtension}"
+                "E:/code/boj code/compile/${fileBasenameNoExtension}",
+                "-std=c++2a",
+                "${file}"
             ],
             "group": {
                 "kind": "build",
