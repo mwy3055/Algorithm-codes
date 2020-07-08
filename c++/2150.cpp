@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 
-int nth[10001]; // 0: never visited, 1: currently searching, 2: search complete
-bool visit[10001];
+int nth[10001], visit[10001]; // 0: never visited, 1: currently searching, 2: search complete
 std::stack<int> s;
 std::vector<std::vector<int>> graph, scc;
 
@@ -17,16 +16,17 @@ int dfs(int cur)
 {
     static int nthval = 1;
     nth[cur] = nthval++;
+    visit[cur] = 1;
     s.push(cur);
 
     int parent = nth[cur];
     for (auto &adj : graph[cur])
     {
-        if (nth[adj] == 0)
+        if (visit[adj] == 0)
         {
             parent = std::min(parent, dfs(adj));
         }
-        else if (!visit[adj])
+        else if (visit[adj] == 1)
         {
             parent = std::min(parent, nth[adj]);
         }
@@ -41,7 +41,7 @@ int dfs(int cur)
         {
             top = s.top();
             s.pop();
-            visit[top] = true;
+            visit[top] = 2;
             v.push_back(top);
         }
         std::sort(v.begin(), v.end());
@@ -66,7 +66,7 @@ int main()
 
     for (int i = 1; i <= v; i++)
     {
-        if (nth[i] == 0)
+        if (visit[i] == 0)
             dfs(i);
     }
 
