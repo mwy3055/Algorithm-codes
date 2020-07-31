@@ -2,27 +2,24 @@
 
 using sit = std::string::iterator;
 
-bool isgood(char c, sit begin, sit end)
+int count(char c, sit begin, sit end)
 {
-    if (begin + 1 == end)
-        return true;
-    int len = end - begin;
-    if (isgood(c, begin, begin + len / 2) && isgood(c + 1, begin + len / 2, end))
-        return true;
-    else if (isgood(c + 1, begin, begin + len / 2) && isgood(c, begin + len / 2, end))
-        return true;
-    return false;
+    int rtn = 0;
+    for (auto it = begin; it != end; it++)
+    {
+        if (*it == c)
+            rtn++;
+    }
+    return rtn;
 }
 
 int getmin(char c, sit begin, sit end)
 {
     if (begin + 1 == end)
         return *begin != c;
-    if (isgood(c, begin, end))
-        return 0;
-    int len = end - begin;
-    int val1 = getmin(c, begin, begin + len / 2) + getmin(c + 1, begin + len / 2, end);
-    int val2 = getmin(c + 1, begin, begin + len / 2) + getmin(c, begin + len / 2, end);
+    int half = (end - begin) / 2;
+    int val1 = (half - count(c, begin, begin + half)) + getmin(c + 1, begin + half, end);
+    int val2 = getmin(c + 1, begin, begin + half) + (half - count(c, begin + half, end));
     return std::min(val1, val2);
 }
 
