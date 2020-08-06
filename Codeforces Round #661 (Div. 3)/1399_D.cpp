@@ -1,14 +1,42 @@
 #include <bits/stdc++.h>
 
+void pop(std::deque<int> &first, std::deque<int> &second, std::vector<int> &a, int &ans)
+{
+    int before = first.front();
+    first.pop_front();
+    a[before] = ++ans;
+    for (int i = 1; !first.empty() || !second.empty(); i++)
+    {
+        if (i % 2)
+        {
+            auto it = std::upper_bound(second.begin(), second.end(), before);
+            if (it == second.end())
+                break;
+            before = *it;
+            a[before] = ans;
+            second.erase(it);
+        }
+        else
+        {
+            auto it = std::upper_bound(first.begin(), first.end(), before);
+            if (it == first.end())
+                break;
+            before = *it;
+            a[before] = ans;
+            first.erase(it);
+        }
+    }
+}
+
 void solve(int &n, std::string &s, int &ans, std::vector<int> &a)
 {
-    std::queue<int> zeroidx, oneidx;
+    std::deque<int> zeroidx, oneidx;
     for (int i = 0; i < n; i++)
     {
         if (s[i] == '0')
-            zeroidx.push(i);
+            zeroidx.push_back(i);
         else
-            oneidx.push(i);
+            oneidx.push_back(i);
     }
 
     while (!zeroidx.empty() || !oneidx.empty())
@@ -18,7 +46,7 @@ void solve(int &n, std::string &s, int &ans, std::vector<int> &a)
             while (!oneidx.empty())
             {
                 a[oneidx.front()] = ++ans;
-                oneidx.pop();
+                oneidx.pop_front();
             }
             return;
         }
@@ -27,60 +55,18 @@ void solve(int &n, std::string &s, int &ans, std::vector<int> &a)
             while (!zeroidx.empty())
             {
                 a[zeroidx.front()] = ++ans;
-                zeroidx.pop();
+                zeroidx.pop_front();
             }
             return;
         }
         if (zeroidx.front() < oneidx.front())
         {
             // 010101
-            int before = zeroidx.front();
-            zeroidx.pop();
-            a[before] = ++ans;
-            for (int i = 1; !zeroidx.empty() || !oneidx.empty(); i++)
-            {
-                if (i % 2)
-                {
-                    if (oneidx.front() < before || oneidx.empty())
-                        break;
-                    before = oneidx.front();
-                    oneidx.pop();
-                    a[before] = ans;
-                }
-                else
-                {
-                    if (zeroidx.front() < before || zeroidx.empty())
-                        break;
-                    before = zeroidx.front();
-                    zeroidx.pop();
-                    a[before] = ans;
-                }
-            }
+            pop(zeroidx, oneidx, a, ans);
         }
         else
         {
-            int before = oneidx.front();
-            oneidx.pop();
-            a[before] = ++ans;
-            for (int i = 1; !zeroidx.empty() || !oneidx.empty(); i++)
-            {
-                if (i % 2)
-                {
-                    if (zeroidx.front() < before || zeroidx.empty())
-                        break;
-                    before = zeroidx.front();
-                    zeroidx.pop();
-                    a[before] = ans;
-                }
-                else
-                {
-                    if (oneidx.front() < before || oneidx.empty())
-                        break;
-                    before = oneidx.front();
-                    oneidx.pop();
-                    a[before] = ans;
-                }
-            }
+            pop(oneidx, zeroidx, a, ans);
         }
     }
 }
