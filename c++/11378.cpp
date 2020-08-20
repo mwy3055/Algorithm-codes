@@ -26,10 +26,7 @@ int match(int &n, int k)
     {
         std::fill(visit.begin(), visit.end(), false);
         if (dfs(i))
-        {
-            std::cout << "match: " << i << '\n';
             rtn++;
-        }
     }
     return rtn;
 }
