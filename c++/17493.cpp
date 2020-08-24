@@ -34,7 +34,7 @@ int search(int cur)
         int mval = std::min(dp[adj][0], dp[adj][1]);
         dp[cur][0] += std::min(mval, dp[adj][2]);
         dp[cur][1] += mval;
-        dp[cur][2] = std::min(INF, dp[cur][2] + dp[adj][1]);
+        dp[cur][2] = std::min(INF, dp[cur][2] + mval);
         d = std::min(d, dp[adj][0] - mval);
     }
     dp[cur][1] = std::min(INF, dp[cur][1] + d);
