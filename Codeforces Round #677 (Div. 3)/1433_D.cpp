@@ -6,18 +6,6 @@ struct road
     road(int x, int y) : x(x), y(y) {}
 };
 
-void solve(int &n, std::vector<int> &a, std::vector<road> &roads)
-{
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = i + 1; j < n; j++)
-        {
-            if (a[i] != a[j])
-                roads.emplace_back(i, j);
-        }
-    }
-}
-
 int main()
 {
     std::ios::sync_with_stdio(false);
@@ -33,16 +21,30 @@ int main()
         for (int i = 0; i < n; i++)
             std::cin >> a[i];
         std::vector<road> roads;
-        solve(n, a, roads);
-        if (roads.size() >= n - 1)
+        int diff = -1;
+        for (int i = 1; i < n; i++)
         {
-            std::cout << "YES" << '\n';
-            for (int i = 0; i < n - 1; i++)
-                std::cout << roads[i].x + 1 << ' ' << roads[i].y + 1 << '\n';
+            if (a[0] != a[i])
+            {
+                diff = i;
+                roads.emplace_back(0, i);
+            }
         }
-        else
+        if (diff == -1)
         {
             std::cout << "NO" << '\n';
+            continue;
         }
+        for (int i = 1; i < n; i++)
+        {
+            if (a[0] == a[i])
+            {
+                roads.emplace_back(i, diff);
+            }
+        }
+
+        std::cout << "YES" << '\n';
+        for (int i = 0; i < n - 1; i++)
+            std::cout << roads[i].x + 1 << ' ' << roads[i].y + 1 << '\n';
     }
 }
