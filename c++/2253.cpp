@@ -1,21 +1,5 @@
 #include <bits/stdc++.h>
 
-struct node
-{
-    int cur, count, speed;
-    node(int cur, int count, int speed) : cur(cur), count(count), speed(speed) {}
-};
-
-struct cmp
-{
-    bool operator()(const node n1, const node n2)
-    {
-        if (n1.count != n2.count)
-            return n1.count > n2.count;
-        return n1.cur < n2.cur;
-    }
-};
-
 const int INF = 0x3f3f3f3f;
 bool small[10001];
 int n, m, dp[10001][1001];
@@ -57,6 +41,5 @@ int main()
         small[x] = true;
     }
 
-    int ans = solve(1, 0);
     std::cout << solve(1, 0);
 }
