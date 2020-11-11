@@ -6,7 +6,7 @@ typedef struct S
     int seg_s, seg_e;
     ll val;
 } Segment;
-const int MAX_DEP = 17, IDENTITY = 0; // n <= 2^MAX_DEP
+const int MAX_DEP = 18, IDENTITY = 0; // n <= 2^MAX_DEP
 const int MAX = (1 << MAX_DEP) - 1;
 Segment tree[MAX];
 
@@ -20,7 +20,7 @@ void make_tree(int i, int n, ll *arr)
         if (idx < n)
             now.val = arr[idx];
         else
-            now.val = 0;
+            now.val = IDENTITY;
     }
     else
     {
@@ -40,13 +40,11 @@ ll solve(int i, int s, int e)
     else
         return solve(2 * i + 1, s, e) + solve(2 * i + 2, s, e);
 }
-ll change(int i, int &idx, int &val)
+ll change(int i, int &idx, ll &val)
 {
     auto &now = tree[i];
     if (now.seg_s == idx && now.seg_e == idx)
-    {
         return now.val = val;
-    }
     else if (now.seg_s == now.seg_e || idx < now.seg_s || now.seg_e < idx)
         return now.val;
     else
@@ -67,11 +65,16 @@ int main()
 
     for (int i = 0; i < q; i++)
     {
-        int x, y, a, b;
+        int x, y, a;
+        ll b;
         std::cin >> x >> y >> a >> b;
         if (x > y)
             std::swap(x, y);
         std::cout << solve(0, x - 1, y - 1) << '\n';
-        change(0, --a, b);
+        if (num[--a] != b)
+        {
+            num[a] = b;
+            change(0, a, b);
+        }
     }
 }
