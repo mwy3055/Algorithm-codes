@@ -2,7 +2,7 @@
 using namespace std;
 
 int n, board[500][1000], tileno[500][1000], track[250000], maxtno, src[][2] = {0, 1, 1, 0, 0, -1, -1, 0};
-bool visit[250000];
+bool Visit[250000];
 vector<vector<int>> adj;
 
 bool issame(int y1, int x1, int y2, int x2)
@@ -19,11 +19,17 @@ bool isin(int y, int x)
 }
 void solve()
 {
+    if (n == 1)
+    {
+        std::cout << 1 << '\n'
+                  << 1;
+        return;
+    }
     queue<int> q;
     int maxtno = 0;
 
     q.push(1);
-    visit[1] = true;
+    Visit[1] = true;
     while (!q.empty())
     {
         int siz = q.size();
@@ -35,10 +41,10 @@ void solve()
             maxtno = max(maxtno, top);
             for (auto &node : adj[top])
             {
-                if (!visit[node])
+                if (!Visit[node])
                 {
                     q.push(node);
-                    visit[node] = true;
+                    Visit[node] = true;
                     track[node] = top;
                 }
             }
