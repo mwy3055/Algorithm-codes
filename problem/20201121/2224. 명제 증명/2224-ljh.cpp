@@ -5,7 +5,7 @@ using namespace std;
 
 int n;
 char x, y;
-string tmp; //¹ö¸®´Â ¹®ÀÚ¿­ 
+string tmp; //ë²„ë¦¬ëŠ” ë¬¸ìì—´ 
 int graph[55][55];
 
 void floydWarshall(void)
@@ -13,18 +13,18 @@ void floydWarshall(void)
 	for (int k = 0; k <= 51; k++)
 		for (int i = 0; i <= 51; i++)
 			for (int j = 0; j <= 51; j++)
-				//1->1 ÀÌ·±°Å ¾îÂ÷ÇÇ 0ÀÌ¶ó 
+				//1->1 ì´ëŸ°ê±° ì–´ì°¨í”¼ 0ì´ë¼ 
 				if (i == j)
 					continue;
 				else if (graph[i][k] && graph[k][j])
-					//°æ·Î°¡ Á¸ÀçÇÑ´Ù¸é true ¾Æ´Ï¸é false
+					//ê²½ë¡œê°€ ì¡´ì¬í•œë‹¤ë©´ true ì•„ë‹ˆë©´ false
 				{
 					if (graph[i][j] == 0)
-						//ÇÑ¹ø¿£ ¸ø°¡µµ °æÀ¯³ëµå¸¦ °ÅÃÄ Å½»öÀÌ °¡´ÉÇÒ¶§
+						//í•œë²ˆì—” ëª»ê°€ë„ ê²½ìœ ë…¸ë“œë¥¼ ê±°ì³ íƒìƒ‰ì´ ê°€ëŠ¥í• ë•Œ
 						graph[i][j] = graph[i][k] + graph[k][j];
 					
 					else
-						//ÇÙ½É! ´õ ºü¸¥ °æ·Î·Î °»½Å 
+						//í•µì‹¬! ë” ë¹ ë¥¸ ê²½ë¡œë¡œ ê°±ì‹  
 						graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
 					
 				}
