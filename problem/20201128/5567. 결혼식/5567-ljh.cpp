@@ -10,7 +10,7 @@ vector<int> board[MAX + 1];
 queue<int> q;
 
 void bfs()
-//ÀÌ»óÇÔ
+//ì´ìƒí•¨
 {
     while (!q.empty())
     {
@@ -63,4 +63,4 @@ int main()
     return 0;
 }
 
-//µª½º·Î Ç®°í ½Í¾ù´Âµ¥..
+//ëìŠ¤ë¡œ í’€ê³  ì‹¶ì—‡ëŠ”ë°..
