@@ -10,7 +10,6 @@ vector<int> board[MAX + 1];
 queue<int> q;
 
 void bfs()
-//이상함
 {
     while (!q.empty())
     {
