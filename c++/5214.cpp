@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
-using vi = std::vector<int>;
-std::vector<vi> tubes, included;
+std::vector<int> graph[101001];
+bool visit[101001];
+const int OFFSET = 100000;
 
-bool visit[100001];
 int solve(int n)
 {
     std::queue<int> q;
@@ -20,17 +20,14 @@ int solve(int n)
             int cur = q.front();
             q.pop();
             if (cur == n)
-                return ans;
+                return (ans / 2) + 1;
 
-            for (auto &tube : included[cur])
+            for (auto &adj : graph[cur])
             {
-                for (auto &elem : tubes[tube])
+                if (!visit[adj])
                 {
-                    if (!visit[elem])
-                    {
-                        q.push(elem);
-                        visit[elem] = true;
-                    }
+                    q.push(adj);
+                    visit[adj] = true;
                 }
             }
         }
@@ -45,26 +42,14 @@ int main()
 
     int n, m, k;
     std::cin >> n >> k >> m;
-    included.resize(n + 1);
-    for (int i = 0; i < m; i++)
+    for (int i = 1; i <= m; i++)
     {
-        tubes.push_back(vi());
         for (int j = 0; j < k; j++)
         {
             int x;
             std::cin >> x;
-            tubes.back().push_back(x);
-        }
-    }
-
-    std::sort(tubes.begin(), tubes.end());
-    tubes.erase(std::unique(tubes.begin(), tubes.end()), tubes.end());
-
-    for (int i = 0; i < tubes.size(); i++)
-    {
-        for (auto &elem : tubes[i])
-        {
-            included[elem].push_back(i);
+            graph[x].push_back(OFFSET + i);
+            graph[OFFSET + i].push_back(x);
         }
     }
 
