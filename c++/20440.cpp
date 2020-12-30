@@ -16,11 +16,7 @@ int main()
         std::cin >> s >> e;
         times.emplace_back(s, e);
     }
-    std::sort(times.begin(), times.end(), [](const pii &a, const pii &b) {
-        if (a.first != b.first)
-            return a.first < b.first;
-        return a.second > b.second;
-    });
+    std::sort(times.begin(), times.end());
 
     auto comp = [](const pii &a, const pii &b) {
         return a.second > b.second;
