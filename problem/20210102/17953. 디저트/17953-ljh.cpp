@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -6,7 +5,8 @@ using namespace std;
 int n, m;
 
 int arr[11][100001];
-int dp[11][100001]; //dp[i][j] = i번째 디저트를, j번째 날에 먹었을때, 만족감의 최대값
+int dp[11][100001]; 
+//dp[i][j] = i번째 디저트를, j번째 날에 먹었을때, 만족감의 최대값
  
 int main()
 {
@@ -26,23 +26,25 @@ int main()
 
     //기저 조건
     for (int i = 1; i <= m; i++){
-        dp[i][n] = arr[i][n];
-
-        cout << dp[i][n] << '\n';
+        dp[i][1] = arr[i][1];
     }
 
     //문제의 지점 
-    for (int j = n-1; j >= 1; j--)
+    int max_cnt, temp;
+    for (int j = 2; j <= n; j++)
     {
         for(int i = 1; i <= m; i++){
-            int max_cnt = -1;
+            max_cnt = -1;
             for(int k = 1; k <= m; k++){
-                if (k == i) max_cnt = max(max_cnt, (dp[i][j+1])/2);
+                if (i == k) {temp = dp[k][j-1] + (arr[i][j])/2;} 
                 //다음에 같은 디저트를 선택할 때
-                else max_cnt = max(max_cnt, dp[k][j+1]);
+                else {temp = dp[k][j-1] + arr[i][j];}
                 //다음에 다른 디저트를 선택할 때 
+                if(max_cnt < temp){
+                    max_cnt = temp;
+                    dp[i][j] = max_cnt;
+                }
             }
-            dp[i][j] = max_cnt + arr[i][j];
         }
     }
 
@@ -50,8 +52,7 @@ int main()
 
     //처음 선택에 따른 결과 중 최댓값을 출력 
     for(int i = 1; i <= m; i++){
-        cout << dp[i][1] << '\n';
-        max_result = max(max_result, dp[i][1]);
+        max_result = max(max_result, dp[i][n]);
     }
 
     cout << max_result << '\n';
