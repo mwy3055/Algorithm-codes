@@ -9,21 +9,24 @@ void solve(int &n)
     dp[3] = 1, track[3] = 1;
     for (int i = 4; i <= n; i++)
     {
-        if (i % 3 == 0)
+        int mval = 0x3f3f3f3f, type = -1;
+        if (i % 3 == 0 && dp[i / 3] + 1 < mval)
         {
-            dp[i] = min(dp[i / 3], dp[i - 1]) + 1;
-            track[i] = (dp[i / 3] < dp[i - 1] ? 1 : 3);
+            mval = dp[i / 3] + 1;
+            type = 1;
         }
-        else if (i % 2 == 0)
+        if (i % 2 == 0 && dp[i / 2] + 1 < mval)
         {
-            dp[i] = min(dp[i / 2], dp[i - 1]) + 1;
-            track[i] = (dp[i / 2] < dp[i - 1] ? 2 : 3);
+            mval = dp[i / 2] + 1;
+            type = 2;
         }
-        else
+        if (dp[i - 1] + 1 < mval)
         {
-            dp[i] = dp[i - 1] + 1;
-            track[i] = 3;
+            mval = dp[i - 1] + 1;
+            type = 3;
         }
+        dp[i] = mval;
+        track[i] = type;
     }
 }
 
