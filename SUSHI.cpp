@@ -3,7 +3,7 @@
 using vi = std::vector<int>;
 int solve(int &n, int &m, vi &prices, vi &prefs)
 {
-    int count = 201, dp[201] = {0}, max = 0;
+    int count = 201, dp[201] = {0}, max = 0; // 직전 201개만 기억해도 충분
     for (int i = 1; i <= m; i++)
     {
         int cidx = i % count, tmax = 0;
