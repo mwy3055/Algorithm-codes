@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 int n, k, m, len[50], q[50];
-double dp[5][50], t[50][50];
+double t[50][50];
 const int MOD = 5;
 
 void getinput()
@@ -24,34 +24,90 @@ void getinput()
     }
 }
 
-double calc(int i, int j)
+class SquareMatrix
 {
-    double ans = 0;
-    for (int t = 0; t < len[j]; t++)
-        ans += dp[(i - t) % MOD][j];
-    return ans;
-}
+private:
+    int siz;
+    std::vector<std::vector<double>> matrix;
+
+public:
+    static SquareMatrix identity(int n)
+    {
+        SquareMatrix rtn(n);
+        for (int i = 0; i < n; i++)
+            rtn.matrix[i][i] = 1;
+        return rtn;
+    }
+
+    int getsiz() const
+    {
+        return this->siz;
+    }
+
+    SquareMatrix(int siz = 0) : siz(siz)
+    {
+        matrix = std::vector<std::vector<double>>(siz, std::vector<double>(siz, 0));
+    }
+    SquareMatrix operator*(SquareMatrix b)
+    {
+        if (this->siz != b.siz)
+            return SquareMatrix(1);
+
+        SquareMatrix rtn(siz);
+        for (int k = 0; k < siz; k++)
+        {
+            for (int i = 0; i < siz; i++)
+            {
+                auto &r = this->matrix[i][k];
+                for (int j = 0; j < siz; j++)
+                    rtn[i][j] += r * b.matrix[k][j];
+            }
+        }
+
+        return rtn;
+    }
+    std::vector<double> &operator[](int i)
+    {
+        return matrix[i];
+    }
+
+    static SquareMatrix pow(const SquareMatrix &a, int m)
+    {
+        if (m == 1)
+            return a;
+
+        SquareMatrix result = SquareMatrix::pow(a, m / 2);
+        result = result * result;
+        if (m % 2)
+            result = result * a;
+        return result;
+    }
+};
 
 void solve()
 {
-    dp[0][0] = 1;
-    for (int time = len[0]; time <= k; time++)
+    SquareMatrix w(4 * n);
+    for (int i = 0; i < 3 * n; i++)
+        w[i][i + n] = 1;
+    for (int i = 0; i < n; i++)
     {
-        for (int cur = 0; cur < n; cur++)
+        // c[t+1][i] = sum of c[t+1-len[j]][j]*t[j][i]
+        for (int j = 0; j < n; j++)
         {
-            auto &cur_dp = dp[time % MOD][cur];
-            cur_dp = 0;
-            for (int song = 0; song < n; song++)
-            {
-                if (time - len[song] >= 0)
-                    cur_dp += dp[(time - len[song]) % MOD][song] * t[song][cur];
-            }
+            w[3 * n + i][(4 - len[j]) * n + j] = t[j][i];
         }
     }
+    SquareMatrix wk = SquareMatrix::pow(w, k);
 
     for (int i = 0; i < m; i++)
     {
-        std::cout << std::fixed << calc(k, q[i]) << ' ';
+        auto &cur = q[i];
+        double ans = 0;
+        for (int t = 0; t < len[cur]; t++)
+        {
+            ans += wk[(3 - t) * n + cur][3 * n];
+        }
+        std::cout << std::fixed << ans << ' ';
     }
     std::cout << '\n';
 }
@@ -66,7 +122,6 @@ int main()
     std::cin >> c;
     while (c--)
     {
-        memset(dp, 0, sizeof(dp));
         getinput();
         solve();
     }
