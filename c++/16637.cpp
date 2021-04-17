@@ -54,10 +54,6 @@ void search(ll &ans, std::string &exp, int dep, int selected)
     if (dep >= operator_count)
     {
         auto result = calculate_exp(exp, selected);
-        if (result > 426384)
-        {
-            calculate_exp(exp, selected);
-        }
         ans = std::max(ans, result);
         return;
     }
@@ -73,7 +69,6 @@ int solve(int n, std::string &exp)
     if (n == 1)
         return exp[0] - '0';
     ll ans = -(1LL << 31);
-    int operator_count = n / 2;
     search(ans, exp, 0, 0);
     return ans;
 }
