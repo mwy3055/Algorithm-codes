@@ -2,18 +2,18 @@
 using namespace std;
 
 const int MAX_NODE = 100000;
-const int MAX_DEP = 20;
+const int MAX_DEP = 18;
 int n, m;
 
-bool visit[MAX_NODE + 1];
+bool visited[MAX_NODE + 1];
 int depth[MAX_NODE + 1], parent[MAX_NODE + 1][MAX_DEP + 1];
 void dfs(vector<vector<int>> &adj, int cur, int dep)
 {
-    visit[cur] = true;
+    visited[cur] = true;
     depth[cur] = dep;
     for (auto &node : adj[cur])
     {
-        if (visit[node])
+        if (visited[node])
             continue;
         parent[node][0] = cur;
         dfs(adj, node, dep + 1);
@@ -35,7 +35,7 @@ int LCA(int a, int b)
     // 항상 b가 더 깊은 정점이 되도록 함
     if (depth[a] > depth[b])
         swap(a, b);
-    for (int i = 20; i >= 0; i--)
+    for (int i = MAX_DEP; i >= 0; i--)
     {
         if ((1 << i) <= depth[b] - depth[a])
         {
@@ -45,7 +45,7 @@ int LCA(int a, int b)
     if (a == b)
         return a;
 
-    for (int i = 20; i >= 0; i--)
+    for (int i = MAX_DEP; i >= 0; i--)
     {
         if (parent[a][i] != parent[b][i])
         {
