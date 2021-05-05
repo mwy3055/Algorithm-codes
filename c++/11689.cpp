@@ -27,23 +27,24 @@ bool isprime(ll n)
 {
     for (auto &p : primes)
     {
-        if (n % p == 0)
+        if (n < p)
+            break;
+        else if (n == p)
+            return true;
+        else if (n % p == 0)
             return false;
     }
     return true;
 }
 
-ll solve(ll n)
+std::vector<ll> get_pf(ll n)
 {
-    if (n == 1)
-        return 1;
-    else if (isprime(n))
-        return n - 1;
-
-    // n의 각 소인수가 몇 번 곱해졌는지 세어야 한다.
-    std::vector<int> counts;
+    ll n_backup = n;
+    std::vector<ll> prime_factors;
     for (auto &p : primes)
     {
+        if (n < p)
+            break;
         int count = 0;
         while (n % p == 0)
         {
@@ -51,15 +52,23 @@ ll solve(ll n)
             count++;
         }
         if (count)
-            counts.push_back(count);
+            prime_factors.push_back(p);
     }
-    if (n == 1)
-        counts.push_back(1);
+    if (n != 1)
+        prime_factors.push_back(n);
+    return prime_factors;
+}
 
-    ll count_factor = 1;
-    for (auto &c : counts)
-        count_factor *= (c + 1);
-    return n - count_factor;
+ll getphi(ll n)
+{
+    auto pf = get_pf(n);
+    ll phi = n;
+    for (auto &p : pf)
+    {
+        phi /= p;
+        phi *= (p - 1);
+    }
+    return phi;
 }
 
 int main()
@@ -69,7 +78,14 @@ int main()
 
     calculate();
 
-    ll n;
+    ll n, ans;
     std::cin >> n;
-    std::cout << solve(n) << '\n';
+
+    if (n == 1)
+        ans = 1;
+    else if (isprime(n))
+        ans = n - 1;
+    else
+        ans = getphi(n);
+    std::cout << ans << '\n';
 }
