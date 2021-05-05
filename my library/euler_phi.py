@@ -1,26 +1,25 @@
 def isprime(n):
-    for i in range(2, n):
-        if i*i > n:
-            break
+    i = 2
+    while i*i <= n:
         if n % i == 0:
             return False
+        i += 1
     return True
 
 
 # Calculates Euler's phi value
 def getphi(n):
-    if isprime(n):
+    if n == 1:
+        return 1
+    elif isprime(n):
         return n-1
-    phi = n
-    for p in range(2, n):
-        if p*p > n:
-            break
-        if n % p == 0:
-            phi *= p-1
-            phi //= p
-            while n % p == 0:
-                n //= p
-    if n > 1:
-        phi *= n-1
-        phi /= n
+    prime, phi = 2, n
+    while prime*prime <= n:
+        if n % prime == 0:
+            phi = phi*(prime-1)//prime
+        while n % prime == 0:
+            n //= prime
+        prime += 1
+    if n != 1:
+        phi = phi*(n-1)//n
     return phi
