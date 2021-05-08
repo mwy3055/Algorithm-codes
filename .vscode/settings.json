@@ -86,6 +86,6 @@
     "python.testing.pytestEnabled": false,
     "python.testing.promptToConfigure": false,
     "python.pythonPath": "C:\\Users\\s_mwy3055\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
-    "java.home": "C:/Program Files/AdoptOpenJDK/jdk-11.0.4.11-hotspot",
+    "java.home": "C:/Program Files/AdoptOpenJDK/jdk-11.0.10.9-hotspot",
     "C_Cpp.errorSquiggles": "Disabled"
 }
