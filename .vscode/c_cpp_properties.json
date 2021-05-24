@@ -17,7 +17,7 @@
                 "__GNUC__=9",
                 "__cdecl=__attribute__((__cdecl__))"
             ],
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "windows-gcc-x64",
             "browse": {
                 "path": [
                     "${workspaceRoot}",
@@ -30,7 +30,9 @@
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         }
     ],
     "version": 4
