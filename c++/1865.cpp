@@ -7,10 +7,11 @@ typedef vector<pip> vp;
 
 const int INF = 0x3f3f3f3f;
 
-bool bellman_ford(vp &adj, int &n, int s)
+bool bellman_ford(vp &adj, vector<bool> &visit, int &n, int s)
 {
     vector<int> d(n + 1, INF);
     d[s] = 0;
+    visit[s] = true;
     for (int a = 1; a < n; a++)
     {
         for (auto &edge : adj)
@@ -20,6 +21,7 @@ bool bellman_ford(vp &adj, int &n, int s)
                 continue;
             else if (d[s] + cost < d[e])
             {
+                visit[e] = true;
                 d[e] = d[s] + cost;
             }
         }
@@ -59,6 +61,21 @@ int main()
             cin >> a >> b >> c;
             adjList.push_back({-c, {a, b}});
         }
-        cout << (bellman_ford(adjList, n, 1) ? "NO" : "YES") << '\n';
+
+        bool ans = false;
+        vector<bool> visit(n + 1, false);
+        for (int i = 1; i <= n; i++)
+        {
+            if (!visit[i])
+            {
+                auto result = bellman_ford(adjList, visit, n, i);
+                if (!result)
+                {
+                    ans = true;
+                    break;
+                }
+            }
+        }
+        cout << (ans ? "YES" : "NO") << '\n';
     }
 }
