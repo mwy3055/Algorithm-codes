@@ -9,7 +9,7 @@ const int MAX = (1 << MAX_DEP) - 1;
 Segment tree[MAX];
 
 // sum segment tree
-void make_tree(int i, std::vector<ll> &arr)
+Segment &make_tree(int i, std::vector<ll> &arr)
 {
     auto &now = tree[i];
     if ((1 << (MAX_DEP - 1)) - 1 <= i)
@@ -23,11 +23,13 @@ void make_tree(int i, std::vector<ll> &arr)
     }
     else
     {
-        make_tree(2 * i + 1, arr);
-        make_tree(2 * i + 2, arr);
-        now.seg_s = tree[2 * i + 1].seg_s, now.seg_e = tree[2 * i + 2].seg_e;
-        now.val = tree[2 * i + 1].val + tree[2 * i + 2].val;
+        auto &left = make_tree(2 * i + 1, arr);
+        auto &right = make_tree(2 * i + 2, arr);
+        now.seg_s = left.seg_s;
+        now.seg_e = right.seg_e;
+        now.val = left.val + right.val;
     }
+    return now;
 }
 ll solve(int i, int s, int e)
 {
