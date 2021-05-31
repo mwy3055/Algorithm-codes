@@ -13,7 +13,7 @@ struct node
 
 int n, m, k;
 char board[1000][1001];
-bool visit[1000][1000][11][2]; // [i][j][k][d]: (i, j), k번 벽을 부숨, d: 낮이라면 true
+bool visited[1000][1000][11][2]; // [i][j][k][d]: (i, j), k번 벽을 부숨, d: 낮이라면 true
 
 bool isin(int y, int x)
 {
@@ -29,7 +29,7 @@ int solve()
     int src[][2] = {0, 1, 1, 0, 0, -1, -1, 0};
 
     node start(0, 0, 0), end(n - 1, m - 1, 0);
-    visit[0][0][0][1] = true;
+    visited[0][0][0][1] = true;
     q.push(start);
     int ans = 1;
     while (!q.empty())
@@ -52,21 +52,21 @@ int solve()
                 if (iswall(ny, nx) && ans % 2 && nk < k)
                 {
                     nk++;
-                    if (!visit[ny][nx][nk][nd])
+                    if (!visited[ny][nx][nk][nd])
                     {
-                        visit[ny][nx][nk][nd] = true;
+                        visited[ny][nx][nk][nd] = true;
                         q.push(node(ny, nx, nk));
                     }
                 }
-                else if (!iswall(ny, nx) && !visit[ny][nx][nk][nd])
+                else if (!iswall(ny, nx) && !visited[ny][nx][nk][nd])
                 {
-                    visit[ny][nx][nk][nd] = true;
+                    visited[ny][nx][nk][nd] = true;
                     q.push(node(ny, nx, nk));
                 }
             }
-            if (!visit[y][x][cnt][nd])
+            if (!visited[y][x][cnt][nd])
             {
-                visit[y][x][cnt][nd] = true;
+                visited[y][x][cnt][nd] = true;
                 q.push(node(y, x, cnt));
             }
         }
