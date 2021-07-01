@@ -69,6 +69,42 @@
                 "/C",
                 "E:/code/boj code/compile/${fileBasenameNoExtension}"
             ]
+        },
+        {
+            "label": "save and compile Kotlin code",
+            "command": "kotlinc-native",
+            "args": [
+                "${file}",
+                "-o",
+                "E:/code/boj code/compile/${fileBasenameNoExtension}",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "fileLocation": [
+                    "relative",
+                    "${workspaceRoot}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5,
+                }
+            }
+        },
+        {
+            "label": "execute Kotlin file",
+            "command": "cmd",
+            "group": "test",
+            "args": [
+                "/C",
+                "${fileDirname}\\${fileBasenameNoExtension}"
+            ]
         }
     ]
 }
