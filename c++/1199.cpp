@@ -1,19 +1,57 @@
 #include <bits/stdc++.h>
 
-int n, graph[1001][1001], degree[1001];
+// dest, id of edge
+using pii = std::pair<int, int>;
+
+int n;
+std::vector<pii> edges[1001];
+bool visit[10000001];
 
 void search(int cur)
 {
-    for (int j = 1; j <= n; j++)
+    auto &e = edges[cur];
+    while (!e.empty())
     {
-        if (graph[cur][j] > 0)
-        {
-            graph[cur][j]--;
-            graph[j][cur]--;
-            search(j);
-        }
+        while (!e.empty() && visit[e.back().second])
+            e.pop_back();
+        if (e.empty())
+            break;
+
+        auto [dest, id] = e.back();
+        e.pop_back();
+        visit[id] = true;
+        search(dest);
     }
     std::cout << cur << ' ';
+}
+
+bool getinput()
+{
+    std::cin >> n;
+    int id = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        int degree = 0;
+        for (int j = 1; j <= n; j++)
+        {
+            int count;
+            std::cin >> count;
+            degree += count;
+            if (i < j)
+            {
+                for (int k = 0; k < count; k++)
+                {
+                    edges[i].emplace_back(j, ++id);
+                    edges[j].emplace_back(i, id);
+                }
+            }
+        }
+        if (degree % 2)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 int main()
@@ -21,20 +59,7 @@ int main()
     std::ios::sync_with_stdio(false);
     std::cin.tie(0);
 
-    std::cin >> n;
-    bool has_circuit = true;
-    for (int i = 1; i <= n; i++)
-    {
-        for (int j = 1; j <= n; j++)
-        {
-            std::cin >> graph[i][j];
-            degree[i] += graph[i][j];
-        }
-        if (degree[i] % 2 == 1)
-            has_circuit = false;
-    }
-
-    if (has_circuit)
+    if (getinput())
         search(1);
     else
         std::cout << -1;
