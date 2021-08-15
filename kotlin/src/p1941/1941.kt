@@ -1,8 +1,10 @@
+package p1941
+
 import java.util.*
 
-private val map = mutableListOf<String>()
+val map = mutableListOf<String>()
 
-private fun <T> Iterable<T>.combinations(length: Int): Sequence<List<T>> = sequence {
+fun <T> Iterable<T>.combinations(length: Int): Sequence<List<T>> = sequence {
     val pool = this@combinations as? List<T> ?: toList()
     val n = pool.size
     if (length > n) return@sequence
@@ -19,14 +21,14 @@ private fun <T> Iterable<T>.combinations(length: Int): Sequence<List<T>> = seque
     }
 }
 
-private fun getInput() {
+fun getInput() {
     (0 until 5).forEach { _ ->
         val input = readLine()!!
         map.add(input)
     }
 }
 
-private fun solve(): Int {
+fun solve(): Int {
     val coordsList = mutableListOf<Coord>()
     (0..4).forEach { r ->
         (0..4).forEach { c ->
@@ -46,12 +48,12 @@ private fun solve(): Int {
     return ans
 }
 
-private fun main() {
+fun main() {
     getInput()
     println(solve())
 }
 
-private fun List<Coord>.isConnected(): Boolean {
+fun List<Coord>.isConnected(): Boolean {
     val queue: Queue<Coord> = LinkedList()
     val available = Array(5) { Array(5) { false } }
     val visit = available.map { it.copyOf() }
@@ -84,14 +86,14 @@ private fun List<Coord>.isConnected(): Boolean {
     return count == 7
 }
 
-private val diffList = listOf(
+val diffList = listOf(
     Coord(0, 1),
     Coord(1, 0),
     Coord(0, -1),
     Coord(-1, 0)
 )
 
-private data class Coord(val r: Int, val c: Int) {
+data class Coord(val r: Int, val c: Int) {
     operator fun plus(coord: Coord): Coord {
         return Coord(this.r + coord.r, this.c + coord.c)
     }

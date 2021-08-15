@@ -1,10 +1,12 @@
+package p1377
+
 /**
  * @param value 주어진 값
  * @param order 주어진 순서
  */
-private data class Data(var value: Int, var order: Int)
+data class Data(var value: Int, var order: Int)
 
-private fun main() {
+fun main() {
     val n = readLine()?.toInt()!!
     val input =
             (0 until n).map { order ->

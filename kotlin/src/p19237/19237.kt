@@ -1,11 +1,11 @@
 package p19237
 
-private var n = 0
-private var m = 0
-private var k = 0
-private val map = Array(20) { row -> Array(20) { col -> Grid(Coord(row, col)) } }
+var n = 0
+var m = 0
+var k = 0
+val map = Array(20) { row -> Array(20) { col -> Grid(Coord(row, col)) } }
 
-private fun <T> Array<Array<T>>.forEachValue(action: (T) -> Unit) {
+fun <T> Array<Array<T>>.forEachValue(action: (T) -> Unit) {
     this.forEach { row ->
         row.forEach { elem ->
             action(elem)
@@ -13,9 +13,9 @@ private fun <T> Array<Array<T>>.forEachValue(action: (T) -> Unit) {
     }
 }
 
-private operator fun <T> Array<Array<T>>.get(c: Coord): T = this[c.r][c.c]
+operator fun <T> Array<Array<T>>.get(c: Coord): T = this[c.r][c.c]
 
-private fun getInput() {
+fun getInput() {
     var line = readLine()!!
     val split = line.split(" ").map { it.toInt() }
     n = split[0]
@@ -48,7 +48,7 @@ private fun getInput() {
     }
 }
 
-private fun printInput() {
+fun printInput() {
     map.forEach { row ->
         row.forEach { grid ->
             if (grid.sharks.isNotEmpty()) {
@@ -58,12 +58,12 @@ private fun printInput() {
     }
 }
 
-private fun finished(): Boolean {
+fun finished(): Boolean {
     return map.flatten().map { it.sharks }.flatten().size == 1
 }
 
 // 냄새를 뿌림
-private fun scatter() {
+fun scatter() {
     map.forEachValue { grid ->
         if (grid.isNotEmpty()) {
             val shark = grid.sharks[0]
@@ -73,7 +73,7 @@ private fun scatter() {
 }
 
 // 상어를 쫓아냄
-private fun kick() {
+fun kick() {
     map.forEachValue { grid ->
         if (grid.sharks.size > 1) {
             with(grid.sharks) {
@@ -86,7 +86,7 @@ private fun kick() {
 }
 
 // 냄새의 유효기간 갱신
-private fun spoilSmell() {
+fun spoilSmell() {
     map.forEachValue { grid->
         val spoiled = grid.smell?.let { smell ->
             smell.oneSecondElapsed()
@@ -98,7 +98,7 @@ private fun spoilSmell() {
     }
 }
 
-private fun move(shark: Shark) {
+fun move(shark: Shark) {
     // 방향 결정
     val currentDir = shark.dir
     val current = shark.coord
@@ -135,14 +135,14 @@ private fun move(shark: Shark) {
 }
 
 // 움직임
-private fun move() {
+fun move() {
     val sharks = map.flatten().map { it.sharks }.flatten()
     sharks.forEach { shark ->
         move(shark)
     }
 }
 
-private fun solve(): Int {
+fun solve(): Int {
     if (finished()) {
         return 0
     }
@@ -165,14 +165,14 @@ private fun solve(): Int {
     return ans
 }
 
-private fun main() {
+fun main() {
     getInput()
 
 //    printInput()
     println(solve())
 }
 
-private data class Coord(val r: Int, val c: Int) {
+data class Coord(val r: Int, val c: Int) {
     infix operator fun plus(c: Coord): Coord = Coord(this.r + c.r, this.c + c.c)
 
     fun canMove(dir: Int): Boolean {
@@ -186,14 +186,14 @@ private data class Coord(val r: Int, val c: Int) {
     }
 }
 
-private val diffList = listOf(
+val diffList = listOf(
     Coord(-1, 0),
     Coord(1, 0),
     Coord(0, -1),
     Coord(0, 1)
 )
 
-private data class Shark(
+data class Shark(
     val num: Int,
     var coord: Coord,
     var dir: Int = 0,
@@ -204,7 +204,7 @@ private data class Shark(
     }
 }
 
-private data class Grid(
+data class Grid(
     val coord: Coord,
     val sharks: MutableList<Shark> = mutableListOf(),
     var smell: Smell? = null
@@ -213,7 +213,7 @@ private data class Grid(
     fun isNotEmpty(): Boolean = !isEmpty()
 }
 
-private data class Smell(
+data class Smell(
     val num: Int,
     var time: Int
 ) {

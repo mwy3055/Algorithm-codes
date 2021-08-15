@@ -1,11 +1,13 @@
+package p8980
+
 import kotlin.math.min
 
-private var n = 0
-private var m = 0
-private var c = 0
-private val orders = mutableListOf<Order>()
+var n = 0
+var m = 0
+var c = 0
+val orders = mutableListOf<Order>()
 
-private fun getInput() {
+fun getInput() {
     val line = readLine()!!.split(" ").map { it.toInt() }
     n = line[0]
     c = line[1]
@@ -16,7 +18,7 @@ private fun getInput() {
     }
 }
 
-private fun solve(): Int {
+fun solve(): Int {
     val capacity = Array(n + 1) { 0 }
     var ans = 0
 
@@ -30,12 +32,12 @@ private fun solve(): Int {
     return ans
 }
 
-private fun main() {
+fun main() {
     getInput()
     println(solve())
 }
 
-private data class Order(
+data class Order(
     val from: Int,
     val to: Int,
     val amount: Int
