@@ -1,53 +1,87 @@
-using ll = long long;
-typedef struct S
-{
-    int seg_s, seg_e;
-    ll val;
-} Segment;
-const int MAX_DEP = 17, IDENTITY = 0; // n <= 2^(MAX_DEP-1)
-const int MAX = (1 << MAX_DEP) - 1;
-Segment tree[MAX];
+#include <vector>
 
-// sum segment tree
-Segment &make_tree(int i, std::vector<ll> &arr)
+struct segment
 {
-    auto &now = tree[i];
-    if ((1 << (MAX_DEP - 1)) - 1 <= i)
+    int left, right;
+    long long val;
+};
+
+// 예시: 합 세그먼트 트리
+class SegmentTree
+{
+private:
+    std::vector<segment> tree;
+
+public:
+    const int MAX_DEP, IDENTITY, MAX; // n <= 2^(MAX_DEP - 1)
+    const int OFFSET;
+    SegmentTree(int max_dep, int identity) : MAX_DEP(max_dep), IDENTITY(identity), MAX((1 << MAX_DEP) - 1), OFFSET((1 << (MAX_DEP - 1)) - 1)
     {
-        int idx = i - ((1 << (MAX_DEP - 1)) - 1);
-        now.seg_s = now.seg_e = idx;
-        if (idx < arr.size())
-            now.val = arr[idx];
+        tree.resize(MAX);
+    }
+    /**
+     * 세그먼트 트리를 초기화한다.
+     * 주의: 사용할 트리의 종류에 따라 operation을 수정해야 한다.
+     * 
+     * i: 현재 인덱스
+     * arr: 초기 배열
+     */
+    segment &init(int i, std::vector<long long> &arr)
+    {
+        auto &now = tree[i];
+        if (OFFSET <= i)
+        {
+            int arr_idx = i - OFFSET;
+            now.left = now.right = arr_idx;
+            if (arr_idx < arr.size())
+                now.val = arr[arr_idx];
+            else
+                now.val = IDENTITY;
+        }
         else
-            now.val = IDENTITY;
+        {
+            auto &left = init(2 * i + 1, arr);
+            auto &right = init(2 * i + 2, arr);
+            now.left = left.left;
+            now.right = right.right;
+            now.val = left.val + right.val;
+        }
+        return now;
     }
-    else
+
+    /**
+     * 주어진 구간에 대해 세그먼트 트리의 값을 구한다.
+     * 
+     * i: 현재 인덱스
+     * s: 구간의 왼쪽 끝 (inclusive)
+     * e: 구간의 오른쪽 끝 (inclusive)
+     */
+    long long get(int i, int s, int e)
     {
-        auto &left = make_tree(2 * i + 1, arr);
-        auto &right = make_tree(2 * i + 2, arr);
-        now.seg_s = left.seg_s;
-        now.seg_e = right.seg_e;
-        now.val = left.val + right.val;
+        auto &now = tree[i];
+        if (e < now.left || now.right < s)
+            return IDENTITY;
+        else if (s <= now.left && now.right <= e)
+            return now.val;
+        else
+            return get(2 * i + 1, s, e) + get(2 * i + 2, s, e);
     }
-    return now;
-}
-ll solve(int i, int s, int e)
-{
-    auto &now = tree[i];
-    if (e < now.seg_s || now.seg_e < s)
-        return IDENTITY;
-    else if (s <= now.seg_s && now.seg_e <= e)
-        return now.val;
-    else
-        return solve(2 * i + 1, s, e) + solve(2 * i + 2, s, e);
-}
-ll change(int i, int &idx, int &val)
-{
-    auto &now = tree[i];
-    if (now.seg_s == idx && now.seg_e == idx)
-        return now.val = val;
-    else if (now.seg_s == now.seg_e || idx < now.seg_s || now.seg_e < idx)
-        return now.val;
-    else
-        return now.val = change(2 * i + 1, idx, val) + change(2 * i + 2, idx, val);
-}
+
+    /**
+     * 세그먼트 트리를 업데이트한다.
+     * 
+     * i: 현재 인덱스
+     * index: 바꿀 값의 위치
+     * val: 바꿀 값
+     */
+    long long update(int i, int &index, long long &val)
+    {
+        auto &now = tree[i];
+        if (now.left == index && now.right == index)
+            return now.val = val;
+        else if (now.left == now.right || index < now.left || now.right < index)
+            return now.val;
+        else
+            return now.val = update(2 * i + 1, index, val) + update(2 * i + 2, index, val);
+    }
+};
