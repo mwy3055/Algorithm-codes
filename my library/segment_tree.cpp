@@ -50,6 +50,32 @@ public:
     }
 
     /**
+     * 세그먼트 트리를 value로 초기화한다.
+     * 
+     * i: 현재 인덱스
+     * value: 초기화할 값
+     */
+    segment &init(int i, const long long value)
+    {
+        auto &now = tree[i];
+        if (OFFSET <= i)
+        {
+            int arr_idx = i - OFFSET;
+            now.left = now.right = arr_idx;
+            now.val = value;
+        }
+        else
+        {
+            auto &left = init(2 * i + 1, value);
+            auto &right = init(2 * i + 2, value);
+            now.left = left.left;
+            now.right = right.right;
+            now.val = left.val + right.val;
+        }
+        return now;
+    }
+
+    /**
      * 주어진 구간에 대해 세그먼트 트리의 값을 구한다.
      * 
      * i: 현재 인덱스
