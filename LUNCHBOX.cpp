@@ -10,7 +10,7 @@ using vi = std::vector<int>;
  */
 int solve(int &n, vi &m, vi &e)
 {
-    std::vector<pii> boxes; // 데우는 시간, 먹는 시간
+    std::vector<pii> boxes;
     for (int i = 0; i < n; i++)
     {
         boxes.emplace_back(-e[i], m[i]);
