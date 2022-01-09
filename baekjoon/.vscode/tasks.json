@@ -13,7 +13,7 @@
             "args": [
                 "-g",
                 "-o",
-                "D:/code/boj code/compile/${fileBasenameNoExtension}",
+                "${workspaceFolder}\\compile\\${fileBasenameNoExtension}",
                 "-std=gnu++17",
                 "${file}"
             ],
@@ -43,7 +43,7 @@
                 "${file}",
                 "-g",
                 "-o",
-                "D:/code/boj code/compile/${fileBasenameNoExtension}"
+                "${workspaceFolder}\\compile\\${fileBasenameNoExtension}"
             ],
             "group": "build",
             "problemMatcher": {
@@ -67,7 +67,7 @@
             "group": "test",
             "args": [
                 "/C",
-                "D:/code/boj code/compile/${fileBasenameNoExtension}"
+                "${workspaceFolder}\\compile\\${fileBasenameNoExtension}"
             ]
         },
     ]
