@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-using pii = std::pair<int, int>;
-
 int n;
 std::vector<int> arr, track(1000);
 
@@ -17,6 +15,7 @@ void getinput()
 
 void select()
 {
+    // 탑의 맨 밑에 놓을 수 있는 최대한 작은 값을 선택한다.
     std::vector<int> values;
 
     values.emplace_back(0);
