@@ -29,13 +29,9 @@ void solve(std::string &w, int &k)
     int ans1 = MAX, ans2 = 0;
     for (int i = 0; i < 26; i++)
     {
-        // ans1, ans2를 구하자.
-        if (count[i].size() >= k)
-        {
-            auto [minv, maxv] = search(i, k);
-            ans1 = std::min(ans1, minv);
-            ans2 = std::max(ans2, maxv);
-        }
+        auto [minv, maxv] = search(i, k);
+        ans1 = std::min(ans1, minv);
+        ans2 = std::max(ans2, maxv);
     }
 
     if (ans1 == MAX)
