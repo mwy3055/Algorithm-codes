@@ -25,6 +25,7 @@ private fun solve() {
     }
 }
 
+// 카탈란 수
 private fun calculate() {
     dp[0] = 1
     (2..5000 step 2).forEach { i ->
