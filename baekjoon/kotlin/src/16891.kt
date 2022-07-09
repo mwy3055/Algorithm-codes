@@ -12,8 +12,7 @@ fun solve(n: Long): Long {
     var ans = 0L
     var va = 0.0
     var vb = -1.0
-    while (true) {
-        if (va in 0.0..vb) break
+    while (va !in 0.0..vb) {
         when (ans % 2) {
             0L -> {
                 val newA = (1 - mass) / (1 + mass) * va + 2 * mass / (1 + mass) * vb
