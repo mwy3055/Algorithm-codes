@@ -25,13 +25,11 @@ fun getInput() {
 }
 
 fun solve(): Long {
-    var ans = 0L
-    dices.forEach { (b, a) ->
+    return dices.fold(0L) { acc, (b, a) ->
         val bInverse = multiple(b, mod - 2)
         val add = ((a % mod) * (bInverse % mod)) % mod
-        ans = (ans + add) % mod
+        (acc + add) % mod
     }
-    return ans
 }
 
 data class Dice(val n: Long, val s: Long)
