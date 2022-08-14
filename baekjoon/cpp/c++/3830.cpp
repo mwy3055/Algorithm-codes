@@ -1,82 +1,90 @@
 #include <bits/stdc++.h>
-using namespace std;
 
-typedef long long ll;
-const int MAX = 100001;
-int root[MAX + 1];
-ll weight[MAX + 1];
+using ll = long long;
+using pii = std::pair<int, ll>; // dest가 cost만큼 가볍다
+int n, m;
+ll dw[100001]; // dw[i]: 루트보다 얼마나 무거운가?
+
+class UnionFind
+{
+private:
+    int size;
+    std::vector<int> root;
+
+public:
+    UnionFind(int size) : size(size)
+    {
+        root.resize(size + 1);
+        for (int i = 0; i <= size; i++)
+        {
+            root[i] = i;
+        }
+    }
+    // 재귀 업데이트: 잘 알아두기
+    int find(int n)
+    {
+        if (root[n] == n)
+            return n;
+        auto parent = find(root[n]);
+        dw[n] += dw[root[n]];
+        return root[n] = parent;
+    }
+    void merge(int a, int b, int w)
+    {
+        int root1 = find(a), root2 = find(b);
+        if (root1 == root2)
+            return;
+        // merge weight
+        dw[root2] = dw[a] + w - dw[b];
+        root[root2] = root1;
+    }
+};
+
 void init()
 {
-    memset(root, 0xff, sizeof(int) * (MAX + 1));
-    memset(weight, 0, sizeof(ll) * (MAX + 1));
-}
-int find(int n)
-{
-    auto &r = root[n];
-    if (r < 0)
-        return n;
-    int root_top = find(r);
-    weight[n] += weight[r];
-    cout << "weight of " << n << " updated to " << weight[n] << ", root: " << root_top << '\n';
-    return r = root_top;
-}
-void union_vertex(int a, int b, ll w) // a is w grams lighter than b: a�� ����
-{
-    int root1 = find(a), root2 = find(b);
-    if (root1 == root2)
-        return;
-    root[root1] = root2;
-    weight[root1] = w;
+    std::memset(dw, 0, sizeof(dw));
 }
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
 
-    int n, m;
-    cin >> n >> m;
-    while (n)
+    while (true)
     {
+        std::cin >> n >> m;
+        if (n == 0 && m == 0)
+            exit(0);
+
         init();
-        for (int i = 0; i < m; i++)
+
+        UnionFind uf(n);
+        char c;
+        while (m--)
         {
-            char c;
-            int a, b, w;
-            cin >> c;
+            std::cin >> c;
             if (c == '!')
             {
-                cin >> a >> b >> w;
-                union_vertex(a, b, w);
+                int a, b, w;
+                std::cin >> a >> b >> w; // 무거운 게 루트
+                uf.merge(a, b, w);
+            }
+            else if (c == '?')
+            {
+                int a, b;
+                std::cin >> a >> b;
+                auto pa = uf.find(a), pb = uf.find(b);
+                if (pa == pb)
+                {
+                    std::cout << dw[b] - dw[a] << '\n';
+                }
+                else
+                {
+                    std::cout << "UNKNOWN" << '\n';
+                }
             }
             else
-            {
-                cin >> a >> b;
-                int root1 = find(a), root2 = find(b);
-                if (root1 == root2)
-                    cout << -(weight[b] - weight[a]) << '\n';
-                else
-                    cout << "UNKNOWN" << '\n';
-            }
+                exit(-1);
         }
-        cin >> n >> m;
     }
 }
-
-/* test case
-5 10
-! 1 2 100
-? 2 3
-! 2 3 100
-? 2 3
-? 1 3
-! 4 3 150
-? 4 1
-! 2 5 100
-? 1 2
-? 1 5
-0 0
-
-+ ICPC regional datas
-
-*/
