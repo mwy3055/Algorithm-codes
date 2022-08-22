@@ -22,7 +22,7 @@ public:
     /**
      * 세그먼트 트리를 초기화한다.
      * 주의: 사용할 트리의 종류에 따라 operation을 수정해야 한다.
-     * 
+     *
      * i: 현재 인덱스
      * arr: 초기 배열
      */
@@ -51,7 +51,7 @@ public:
 
     /**
      * 세그먼트 트리를 value로 초기화한다.
-     * 
+     *
      * i: 현재 인덱스
      * value: 초기화할 값
      */
@@ -77,7 +77,7 @@ public:
 
     /**
      * 주어진 구간에 대해 세그먼트 트리의 값을 구한다.
-     * 
+     *
      * i: 현재 인덱스
      * s: 구간의 왼쪽 끝 (inclusive)
      * e: 구간의 오른쪽 끝 (inclusive)
@@ -95,12 +95,12 @@ public:
 
     /**
      * 세그먼트 트리를 업데이트한다.
-     * 
+     *
      * i: 현재 인덱스
      * index: 바꿀 값의 위치
      * val: 바꿀 값
      */
-    long long update(int i, int &index, long long &val)
+    long long update(int i, int index, long long val)
     {
         auto &now = tree[i];
         if (now.left == index && now.right == index)
