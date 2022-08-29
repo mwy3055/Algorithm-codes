@@ -1,4 +1,4 @@
-#include <vector>
+#include <bits/stdc++.h>
 
 struct segment
 {
@@ -111,3 +111,45 @@ public:
             return now.val = update(2 * i + 1, index, val) + update(2 * i + 2, index, val);
     }
 };
+
+void solve(int n, int m)
+{
+    // 리프가 n+m+1개인 세그먼트 트리
+    SegmentTree tree(19, 0);
+    tree.init(0, 0);
+    // 각 영화의 위치 (리프 기준)
+    std::vector<int> pos(n + 1);
+    for (int i = 1; i <= n; i++)
+    {
+        tree.update(0, m + i, 1);
+        pos[i] = m + i;
+    }
+
+    for (int i = 0; i < m; i++)
+    {
+        int movie;
+        std::cin >> movie;
+        auto result = tree.get(0, 0, pos[movie] - 1);
+        std::cout << result << ' ';
+        // 영화를 맨 위로 올림
+        tree.update(0, pos[movie], 0);
+        tree.update(0, m - i, 1);
+        pos[movie] = m - i;
+    }
+    std::cout << '\n';
+}
+
+int main()
+{
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
+
+    int t;
+    std::cin >> t;
+    while (t--)
+    {
+        int n, m;
+        std::cin >> n >> m;
+        solve(n, m);
+    }
+}
