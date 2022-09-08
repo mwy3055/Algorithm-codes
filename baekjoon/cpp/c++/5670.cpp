@@ -1,10 +1,80 @@
 #include <bits/stdc++.h>
 
-int n;
+int n, sum;
 std::vector<std::string> words;
+
+class TrieNode
+{
+public:
+    std::vector<TrieNode *> children;
+    char c;
+    bool end;
+    TrieNode(char c = '\0', bool end = false) : c(c), end(end)
+    {
+    }
+    void insert(TrieNode *new_child)
+    {
+        children.push_back(new_child);
+    }
+};
+
+class Trie
+{
+public:
+    TrieNode *root;
+    Trie()
+    {
+        root = new TrieNode();
+    }
+    void insert(std::string &s)
+    {
+        auto cur = root;
+        for (int i = 0; i < s.size(); i++)
+        {
+            auto next = find(cur, s[i]);
+            if (next == nullptr)
+            {
+                auto new_node = new TrieNode(s[i]);
+                cur->insert(new_node);
+                cur = new_node;
+            }
+            else
+            {
+                cur = next;
+            }
+        }
+        cur->end = true;
+    }
+    TrieNode *find(TrieNode *cur, char c)
+    {
+        for (auto &child : cur->children)
+        {
+            if (child->c == c)
+                return child;
+        }
+        return nullptr;
+    }
+    ~Trie()
+    {
+        std::queue<TrieNode *> q;
+        q.push(root);
+
+        while (!q.empty())
+        {
+            auto top = q.front();
+            q.pop();
+            for (auto &child : top->children)
+            {
+                q.push(child);
+            }
+            delete top;
+        }
+    }
+};
 
 void getinput()
 {
+    sum = 0;
     words.clear();
     for (int i = 0; i < n; i++)
     {
@@ -14,64 +84,26 @@ void getinput()
     }
 }
 
-char ith_char(std::string &s, int i)
+void dfs(TrieNode *cur, int type_count, bool root = false)
 {
-    if (i < s.size())
-        return s[i];
-    else
-        return '\0';
-}
-
-// cur을 prefix로 갖는 단어들이 공통으로 갖는 글자.
-// 없으면 \0 반환
-bool can_auto(std::string &cur, int i)
-{
-    std::unordered_set<char> set;
-    for (auto &w : words)
-    {
-        if (w.substr(0, cur.size()) == cur)
-            set.insert(ith_char(w, i));
-    }
-    return set.size() == 1;
-}
-
-// 이 문자열의 다음 글자?
-void preprocess(std::unordered_map<std::string, char> &m)
-{
-    for (auto &w : words)
-    {
-        std::string substr;
-        for (int i = 1; i <= w.size(); i++)
-        {
-            substr.push_back(w[i - 1]);
-            auto ith = ith_char(w, i);
-            // 없다면 넣는다
-            if (!m.count(substr))
-                m[substr] = ith;
-            // 있는데 다르다면 null로 바꾼다
-            else if (m[substr] != '\0' && m[substr] != ith)
-                m[substr] = '\0';
-        }
-    }
+    if (cur->end)
+        sum += type_count;
+    if (cur->children.size() + cur->end + root > 1)
+        type_count++;
+    // 이 글자를 쳐야 하는가?
+    for (auto &child : cur->children)
+        dfs(child, type_count);
 }
 
 double solve()
 {
-    std::unordered_map<std::string, char> m;
-    preprocess(m);
-
-    double sum = 0;
+    Trie trie;
     for (auto &w : words)
-    {
-        std::string cur;
-        for (int i = 0; i < w.size(); i++)
-        {
-            if (i == 0 || m[cur] == '\0')
-                sum++;
-            cur.push_back(w[i]);
-        }
-    }
-    return sum / n;
+        trie.insert(w);
+
+    // dfs!
+    dfs(trie.root, 0, true);
+    return (double)sum / n;
 }
 
 int main()
