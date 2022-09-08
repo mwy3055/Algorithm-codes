@@ -86,11 +86,12 @@ void getinput()
 
 void dfs(TrieNode *cur, int type_count, bool root = false)
 {
+    // 타이핑 횟수는 마지막에만 더한다.
     if (cur->end)
         sum += type_count;
+    // 이 글자를 쳐야 하는가?
     if (cur->children.size() + cur->end + root > 1)
         type_count++;
-    // 이 글자를 쳐야 하는가?
     for (auto &child : cur->children)
         dfs(child, type_count);
 }
