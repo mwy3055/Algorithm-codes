@@ -20,7 +20,7 @@ int solve(int depth, int bitmask)
     if (bitmask < 0)
         return INF;
     if (depth == n)
-        return (bitmask == 0) ? 0 : INF;
+        return 0;
 
     auto &ret = dp[bitmask];
     if (ret != -1)
