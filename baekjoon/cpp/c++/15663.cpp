@@ -1,20 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int gethash(int *num, int &m)
+string gethash(int *num, int &m)
 {
-    int hash = 0;
+    stringstream ss;
     for (int i = 0; i < m; i++)
     {
-        hash = hash * 10 + num[i];
+        int x = num[i];
+        do
+        {
+            ss << x % 10;
+            x /= 10;
+        } while (x > 0);
+        if (i != m - 1)
+            ss << '-';
     }
-    return hash;
+    return ss.str();
 }
 
 int main()
 {
     int num[8];
-    set<int> s;
+    set<string> s;
 
     int n, m;
     cin >> n >> m;
@@ -24,7 +31,7 @@ int main()
 
     do
     {
-        int hash = gethash(num, m);
+        auto hash = gethash(num, m);
         if (s.find(hash) == s.end())
         {
             for (int i = 0; i < m; i++)
