@@ -33,10 +33,9 @@ struct node
     }
 };
 
-const int INF = 1e9;
 int h, w;
 char board[100][101];
-int cnt[100][100];
+int cnt[100][100][4];
 vector<coord> laser;
 
 bool isin(int y, int x)
@@ -48,8 +47,11 @@ int bfs()
     int src[][2] = {0, 1, 1, 0, 0, -1, -1, 0};
     priority_queue<node, vector<node>, greater<node>> pq;
 
-    pq.push(node(0, -1, laser[0]));
-    cnt[laser[0].y][laser[0].x] = -1;
+    for (int i = 0; i < 4; i++)
+    {
+        pq.emplace(0, i, laser[0]);
+        cnt[laser[0].y][laser[0].x][i] = 0;
+    }
     while (!pq.empty())
     {
         auto top = pq.top();
@@ -62,18 +64,19 @@ int bfs()
         for (int i = 0; i < 4; i++)
         {
             int nc = count, ny = c.y + src[i][0], nx = c.x + src[i][1];
-            if (!isin(ny, nx) || board[ny][nx] == '*' || (from != i && from % 2 == i % 2)) // only 90 degree rotation available
+            if (!isin(ny, nx) || board[ny][nx] == '*' || (from != i && from % 2 == i % 2)) // 반대 방향으로 가는 건 불가능
                 continue;
-            if (from != -1 && from != i)
+            if (from != i)
                 nc++;
-            if (cnt[ny][nx] < nc)
+            // 거울 개수를 셀 때, 어느 방향에서 왔는지까지 고려해야 함
+            if (cnt[ny][nx][i] <= nc)
                 continue;
+            cnt[ny][nx][i] = nc;
             pq.push(node(nc, i, coord(ny, nx)));
-            cnt[ny][nx] = nc;
         }
     }
 
-    return INF;
+    return -1;
 }
 int main()
 {
@@ -88,9 +91,9 @@ int main()
         {
             if (board[i][j] == 'C')
                 laser.push_back(coord(i, j));
-            cnt[i][j] = INF;
         }
     }
 
+    memset(cnt, 0x3f, sizeof(cnt));
     cout << bfs();
 }
