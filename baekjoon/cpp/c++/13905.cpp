@@ -1,43 +1,12 @@
 #include <bits/stdc++.h>
 
-using dest = std::pair<int, int>;  // node1, node2
-using edge = std::pair<int, dest>; // cost, dest
-using mst_edge = std::pair<int, int>;
+using edge = std::pair<int, int>;
+using node = std::pair<int, int>; // max_w, dest
 
 const int MAX = 1000000;
 int n, m, s, e;
-std::vector<edge> edges;
-std::vector<mst_edge> mst[100001];
+std::vector<edge> edges[100001];
 bool visit[100001];
-
-class UnionFind
-{
-private:
-    int size;
-    std::vector<int> root;
-
-public:
-    UnionFind(int size) : size(size)
-    {
-        root.resize(size + 1, -1);
-    }
-    int find(int n)
-    {
-        if (root[n] < 0)
-            return n;
-        return root[n] = find(root[n]);
-    }
-    void merge(int a, int b)
-    {
-        int root1 = find(a), root2 = find(b);
-        if (root1 == root2)
-            return;
-        if (root1 > root2)
-            std::swap(root1, root2);
-        root[root1] += root[root2];
-        root[root2] = root1;
-    }
-};
 
 void getinput()
 {
@@ -46,57 +15,55 @@ void getinput()
     {
         int h1, h2, k;
         std::cin >> h1 >> h2 >> k;
-        edges.emplace_back(k, dest(h1, h2));
+        edges[h1].emplace_back(k, h2);
+        edges[h2].emplace_back(k, h1);
     }
 }
 
-void make_mst()
+bool go(int w)
 {
-    for (auto &e : edges)
+    std::memset(visit, false, sizeof(visit));
+    std::queue<int> q;
+
+    q.push(s);
+    while (!q.empty())
     {
-        e.first = MAX - e.first;
-    }
-    std::sort(edges.begin(), edges.end());
+        auto cur = q.front();
+        q.pop();
 
-    UnionFind uf(n);
-    int edge_count = 0;
-    for (auto &e : edges)
-    {
-        auto &limit = e.first;
-        auto &[h1, h2] = e.second;
+        if (cur == e)
+            return true;
 
-        if (uf.find(h1) == uf.find(h2))
-            continue;
-        uf.merge(h1, h2);
-        mst[h1].emplace_back(MAX - limit, h2);
-        mst[h2].emplace_back(MAX - limit, h1);
-        if (++edge_count == n - 1)
-            break;
-    }
-}
-
-int search(int cur, int weight)
-{
-    if (cur == e)
-        return weight;
-
-    visit[cur] = true;
-    int max_weight = 0;
-    for (auto &[limit, dest] : mst[cur])
-    {
-        if (!visit[dest])
+        for (auto &[limit, dest] : edges[cur])
         {
-            int new_weight = std::min(weight, limit);
-            max_weight = std::max(max_weight, search(dest, new_weight));
+            if (!visit[dest] && limit >= w)
+            {
+                visit[dest] = true;
+                q.push(dest);
+            }
         }
     }
-    return max_weight;
+
+    return false;
 }
 
 int solve()
 {
-    make_mst();
-    return search(s, MAX);
+    for (int i = 1; i <= n; i++)
+    {
+        std::sort(edges[i].begin(), edges[i].end(), std::greater<edge>());
+    }
+
+    int l = 0, r = MAX;
+    while (l + 1 < r)
+    {
+        int mid = (l + r) / 2;
+        if (go(mid))
+            l = mid;
+        else
+            r = mid;
+    }
+    return l;
 }
 
 int main()
