@@ -17,16 +17,16 @@ void getinput()
     }
 }
 
-// 오늘은 day이고, 어제 prev를 먹었다. 연속해서 먹은 횟수는 streak.
+// 오늘은 day이고, 어제 prev를 먹었다. 어제까지 연속해서 먹은 횟수는 streak.
 int solve(int day, int prev, int streak)
 {
     if (streak == 3)
         return 0;
+    if (day > n)
+        return 1;
     auto &ret = dp[day][prev][streak];
     if (ret != -1)
         return ret;
-    if (day == n)
-        return ret = (streak < 3);
 
     ret = 0;
     if (selected[day])
@@ -51,20 +51,8 @@ int solve(int day, int prev, int streak)
 int solve()
 {
     std::memset(dp, -1, sizeof(dp));
-    if (selected[1])
-    {
-        int ans = solve(2, selected[1], 1);
-        return ans;
-    }
-    else
-    {
-        int ans = 0;
-        for (int i = 1; i <= 3; i++)
-        {
-            ans = (ans + solve(2, i, 1)) % MOD;
-        }
-        return ans;
-    }
+    int ans = solve(1, 0, 0);
+    return ans;
 }
 
 int main()
