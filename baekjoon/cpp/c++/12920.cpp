@@ -9,7 +9,8 @@ struct thing
 int n, m;
 std::vector<thing> things;
 
-int dp[1501][10001];
+// 물건이 최대 14개로 쪼개짐
+int dp[1400][10001];
 
 void getinput()
 {
