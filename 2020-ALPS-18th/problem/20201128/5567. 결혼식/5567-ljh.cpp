@@ -13,7 +13,7 @@ void bfs()
 {
     while (!q.empty())
     {
-        int cn = q.front(); //current number
+        int cn = q.front(); // current number
         q.pop();
 
         for (int i = 0; i < board[cn].size(); i++)
@@ -51,7 +51,7 @@ int main()
 
     bfs();
 
-    for (int i = 0; i < MAX+1; i++)
+    for (int i = 0; i < MAX + 1; i++)
     {
         if (dist[i] == 1 || dist[i] == 2)
             cnt++;
@@ -62,4 +62,4 @@ int main()
     return 0;
 }
 
-//뎁스로 풀고 싶엇는데..
+// 뎁스로 풀고 싶엇는데..
